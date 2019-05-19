@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+// var DButilsAzure = require('./DButils');
+
 
 app.get("/", (req, res) => {
     res.send("hellosas");
@@ -7,7 +9,7 @@ app.get("/", (req, res) => {
 
 // getPOIDetail.  ({pointName}).  JSON({viewNum, description, rating, reviews})
 app.get("/", (req, res) => {
-    res.send("hellosas");
+    res.send("sasasd");
 });
 
 //getRandomPOI. - (or minimalRank as parameter).  JSON({POI's})
