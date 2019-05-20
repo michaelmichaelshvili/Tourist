@@ -61,7 +61,9 @@ app.get("/", (req, res) => {
     res.send("hellosas");
 });
 
-
+app.post("/password", (req, res) => {
+    res.send(req.body.password);
+});
 
 //Login.  JSON({Username, Password}).  Token
 app.post("/login", (req, res) => {
