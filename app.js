@@ -2,11 +2,13 @@ const express = require("express");
 const app = express();
 var DButilsAzure = require('./DButils');
 
+
+
 DButilsAzure.execQuery("SELECT * From Users")
     .then(console.log(res));
 
 app.get("/", (req, res) => {
-    res.send("hellosas");
+    res.send("sasas");
 });
 
 // getPOIDetail.  ({pointName}).  JSON({viewNum, description, rating, reviews})
