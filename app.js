@@ -1,8 +1,11 @@
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
+app.use(bodyParser.json())
 var DButilsAzure = require('./DButils');
 const jsha = require("js-sha256");
 // jsha.sha256()
+
 
 async function getUser() {
     await DButilsAzure.execQuery("INSERT INTO Users_Table VALUES ('a','"+jsha.sha256('a')+"')");
@@ -23,6 +26,11 @@ app.get("/a", (req, res) => {
         console.log(err)
         res.send(err)
     })
+});
+
+app.post("/password", (req, res) => {
+    console.log(req.body);
+    res.send("ok")
 });
 
 // getPOIDetail.  ({pointName}).  JSON({viewNum, description, rating, reviews})
