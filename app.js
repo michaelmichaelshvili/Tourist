@@ -3,8 +3,12 @@ const app = express();
 var DButilsAzure = require('./DButils');
 
 
+
+DButilsAzure.execQuery("SELECT * From Users")
+    .then(console.log("res"));
+
 app.get("/", (req, res) => {
-    res.send("hellosas");
+    res.send("sasas");
 });
 
 // getPOIDetail.  ({pointName}).  JSON({viewNum, description, rating, reviews})
@@ -72,7 +76,7 @@ app.post("/", (req, res) => {
 });
 
 
-// const port = process.env.PORT || 3000; //environment variable
+const port = process.env.PORT || 3000; //environment variable
 // app.listen(port, () => {
 //     console.log(`Listening on port ${port}`);
 // });
