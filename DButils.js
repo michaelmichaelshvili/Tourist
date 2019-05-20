@@ -16,7 +16,7 @@ var connectionConfig = {
     userName: 'michEran',
     password: 'Eranmich123',
     server: 'micheran.database.windows.net',
-    options: { encrypt: true, database: 'micheran' }
+    options: { encrypt: true, database: 'micheranDB' }
 };
 
 //create the pool

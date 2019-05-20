@@ -4,11 +4,26 @@ var DButilsAzure = require('./DButils');
 
 
 
-DButilsAzure.execQuery("SELECT * From Users")
-    .then(console.log(res));
 
-app.get("/", (req, res) => {
-    res.send("sasas");
+async function getUser() {
+    await DButilsAzure.execQuery("INSERT INTO Users VALUES ('as','12')");
+
+    try {
+        const user = await DButilsAzure.execQuery("SELECT * FROM Users")
+        return user;
+    } catch (error) {
+        console.log(error)
+    }
+}
+app.get("/a", (req, res) => {
+    getUser()
+    .then(function(result){
+        res.send(result)
+    })
+    .catch(function(err){
+        console.log(err)
+        res.send(err)
+    })
 });
 
 // getPOIDetail.  ({pointName}).  JSON({viewNum, description, rating, reviews})
@@ -74,6 +89,6 @@ app.post("/", (req, res) => {
 
 
 const port = process.env.PORT || 3000; //environment variable
-// app.listen(port, () => {
-//     console.log(`Listening on port ${port}`);
-// });
+app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
+});
