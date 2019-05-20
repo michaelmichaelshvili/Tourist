@@ -19,6 +19,7 @@
   "homepage": "https://github.com/michaelmichaelshvili/Tourist#readme",
   "dependencies": {
     "express": "^4.17.0",
+    "js-sha256": "^0.9.0",
     "tedious": "^6.1.1"
   }
 }

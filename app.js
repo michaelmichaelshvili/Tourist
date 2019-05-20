@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-// var DButilsAzure = require('./DButils');
+var DButilsAzure = require('./DButils');
 
 
 app.get("/", (req, res) => {
@@ -43,9 +43,12 @@ app.get("/", (req, res) => {
     res.send("hellosas");
 });
 
+
+const jsha = require("js-sha256");
+// jsha.sha256()
 //Login.  JSON({Username, Password}).  Token
-app.post("/", (req, res) => {
-    res.send("hellosas");
+app.post("/login", (req, res) => {
+    res.send(req.password);
 });
 
 //RestorePassword.  JSON ({username,question,answer}).    password
@@ -69,7 +72,7 @@ app.post("/", (req, res) => {
 });
 
 
-const port = process.env.PORT || 3000; //environment variable
-app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
-});
+// const port = process.env.PORT || 3000; //environment variable
+// app.listen(port, () => {
+//     console.log(`Listening on port ${port}`);
+// });
