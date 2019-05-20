@@ -1,15 +1,14 @@
 const express = require("express");
 const app = express();
 var DButilsAzure = require('./DButils');
-
-
-
+const jsha = require("js-sha256");
+// jsha.sha256()
 
 async function getUser() {
-    await DButilsAzure.execQuery("INSERT INTO Users VALUES ('as','12')");
+    await DButilsAzure.execQuery("INSERT INTO Users_Table VALUES ('a','"+jsha.sha256('a')+"')");
 
     try {
-        const user = await DButilsAzure.execQuery("SELECT * FROM Users")
+        const user = await DButilsAzure.execQuery("SELECT * FROM Users_Table")
         return user;
     } catch (error) {
         console.log(error)
@@ -62,9 +61,11 @@ app.get("/", (req, res) => {
     res.send("hellosas");
 });
 
+
+
 //Login.  JSON({Username, Password}).  Token
-app.post("/", (req, res) => {
-    res.send("hellosas");
+app.post("/login", (req, res) => {
+    res.send(req.password);
 });
 
 //RestorePassword.  JSON ({username,question,answer}).    password
@@ -73,7 +74,7 @@ app.post("/", (req, res) => {
 });
 
 //Register.   JSON({fname, lname, city, country, email, username, password, interests, Q&A’s}).   
-app.post("/", (req, res) => {
+app.post("/Register", (req, res) => {
     res.send("hellosas");
 });
 
