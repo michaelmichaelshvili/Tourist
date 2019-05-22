@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.json())
 var DButilsAzure = require('./DButils');
+var users_module  = require('./users_module');
 const jsha = require("js-sha256");
 // jsha.sha256()
 
@@ -99,29 +100,25 @@ async function getUser(username) {
 }
 
 async function existsUser(username) {
-    return new Promise(function (resolve, reject) {
-        try {
-            var result = await DButilsAzure.execQuery("SELECT * FROM Users_Table WHERE id = '" + username + "'");
-            if (result.length == 1) {
-                resolve(true);
-            }
-            resolve(false);
-        }
-        catch{
-            reject("error existsUser")
-        }
-    });
+    var result = await DButilsAzure.execQuery("SELECT * FROM Users_Table WHERE id = '" + username + "'");
+    if (result.length == 1) {
+         return true;
+    }
+    console.log("false");   
+    return false;     
 }
 
 async function register(info){
     var username = info.username;
-    var existUser = await existsUser(username);
-    
+    var existUser = existsUser(username);
+    if(existUser){
+        console.log("exists");
+    }
 }
 app.post("/Register", (req, res) => {
     register(req.body)
-        .then(result=>res.send(result));
-
+        .then(result=>res.send(result))
+        .catch(error=>res.send(error.message));
     
 });
 
