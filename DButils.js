@@ -6,8 +6,8 @@ var Request = require('tedious').Request;
 var TYPES = require('tedious').TYPES;
 
 var poolConfig = {
-    min: 2,
-    max: 5,
+    min: 1,
+    max: 1,
     log: true
 };
 
