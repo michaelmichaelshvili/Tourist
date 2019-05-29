@@ -1,5 +1,21 @@
 var DButilsAzure = require('./DButils');
-const jsha = require("js-sha256");
+// const jsha = require("js-sha256");
+var parseString = require("xml2js").parseString;
+var fs = require("fs");
+var convert = require('xml-js');
+var jsonContries;
+var poi_module = require('./poi_module');
+
+
+async function parseCountries() {
+    fs.readFile("countries.xml", "utf-8", function (err, data) {
+        if (err) console.log(err);
+        parseString(data, function (err, result) {
+            if (err) console.log(err);
+            jsonContries = result;
+        });
+    });
+}
 
 async function existsUser(username) {
     try {
@@ -17,19 +33,57 @@ async function existsUser(username) {
 
 async function addUser(user_info) {
     try {
-        await DButilsAzure.execQuery("INSERT INTO Users_Table (username,password,firstname,lastname,city,country,email) VALUES ('" + user_info.username + "', '" + jsha.sha256(user_info.password) + "', '" + user_info.firstname + "', '" + user_info.lastname + "', '" + user_info.city + "','" + user_info.country + "', '" + user_info.email + "')");
-        for (var i = 0; i < Object.keys(user_info.categories).length; i++) {
-            await DButilsAzure.execQuery("INSERT INTO Users_Categories_Table VALUES (" + user_info.username + "','" + user_info.categories[i] + "')");
+        var isValidCountry = false;
+        var isValidcategories = true;
+        for (var i = 0; i < Object.keys(jsonContries.Countries.Country).length; i++) {
+            if (user_info.country === jsonContries.Countries.Country[i].Name[0]) {
+                console.log
+                isValidCountry = true;
+            }
         }
-        for (var i = 0; i < Object.keys(user_info.QA).length; i++) {
-            await DButilsAzure.execQuery("INSERT INTO Users_QA_Table VALUES (" + user_info.username + "','" + user_info.QA[i][0] + "','" + user_info.QA[i][1] + "')");
+        var posCategories = await poi_module.getAllCategories();
+        if (Object.keys(user_info.categories).length >= 2) {
+            for (var i = 0; i < Object.keys(user_info.categories).length; i++) {
+                isValidcategories = isValidcategories && posCategories.some(item => item.name == user_info.categories[i]);
+            }
         }
-        return true;
+        else {
+            isValidcategories = false;
+        }
+        if (isValidcategories && isValidCountry) {
+            try {
+                await DButilsAzure.execQuery("INSERT INTO Users_Table (username,password,firstname,lastname,city,country,email) VALUES ('" + user_info.username + "', '" + user_info.password + "', '" + user_info.firstname + "', '" + user_info.lastname + "', '" + user_info.city + "','" + user_info.country + "', '" + user_info.email + "')");
+            } catch (error) {
+                console.log(error);
+                return error;
+            }
+            try {
+                for (var i = 0; i < Object.keys(user_info.categories).length; i++) {
+                    await DButilsAzure.execQuery("INSERT INTO Users_Categories_Table VALUES ('" + user_info.username + "','" + user_info.categories[i] + "')");
+                }
+            } catch (error) {
+                console.log(error);
+                return error;
+            }
+            try {
+                for (var i = 0; i < Object.keys(user_info.QA).length; i++) {
+                    await DButilsAzure.execQuery("INSERT INTO Users_QA_Table VALUES ('" + user_info.username + "','" + user_info.QA[i][0] + "','" + user_info.QA[i][1] + "')");
+                }
+            } catch (error) {
+                console.log(error);
+                return error;
+            }
+            return true;
+        }
+        else {
+            console.log(isValidcategories + "," + isValidCountry);
+            return false;
+        }
     }
     catch (error) {
         console.log(error);
         console.log("addUser error");
-        return false;
+        return error;
     }
 }
 
@@ -69,25 +123,25 @@ async function getUser(username) {
     }
 }
 
-async function getUserQuestion() {
-    //Todo
+async function getUserQuestionAnswer(username) {
+    const ans = await DButilsAzure.execQuery(`SELECT question_id , answer FROM Users_QA_Table WHERE username = '${username}'`);
+    return ans;
 }
 
 async function restore_password(info, res) {
     var user_exists = existsUser(info.username);
-
     if (user_exists) {
-        var question = getUserQuestion(info.username, info.question);
-        if (question.length > 0) {
-            // Todo:  res-> return ok signal
-
-        }
-        else {
-            console.log("not exists such question");
+        const qa = await getUserQuestionAnswer(info.username);
+        var coorectQA = qa.some(item=>item.question_id==info.question&&item.answer==info.answer);
+        if(coorectQA)
+        {
+            const password = await DButilsAzure.execQuery(`SELECT password From Users_Table WHERE username = ${info.username}`);
+            return password;
         }
     }
     else {
         console.log("not exists such user");
+        return false;
     }
 }
 
@@ -112,7 +166,8 @@ module.exports.deleteUser = deleteUser;
 module.exports.getUser = getUser;
 module.exports.restore_password = restore_password;
 module.exports.login = login;
-
+module.exports.parseCountries = parseCountries;
+module.exports.jsonContries = jsonContries;
 
 // async function getUsers(username) {
 //     try {

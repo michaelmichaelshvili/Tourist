@@ -35,11 +35,30 @@ app.post("/Register",[
     check('lastname').isAlpha(),
     check('city').isLength({min: 1, max: 50}),
     check('email').isEmail(),
-] ,(req, res) => {
-    users_module.addUser(req.body,res)
-        .then(result=>res.send(result))
-        .catch(error=>res.send(error.message));
-    
+    check('QA').custom(array => {
+        for(var i=0;i<array.length;i++)
+        {
+            for(var j=0;j<array[i].length;j++)
+            {
+                if(array[i][j].length < 1 || array[i][j].length>50)
+                {
+                    throw new Error("answer or question is not good");
+                }
+            }
+        }
+        return true;
+    })
+], (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.log(errors.array());
+        res.send("register fail");
+    }
+    else {
+        users_module.addUser(req.body, res)
+            .then(result => res.send(result))
+            .catch(error => res.send(error.message));
+    }
 });
 
 //Login.  JSON({Username, Password}).  Token
@@ -94,4 +113,39 @@ app.get("/getPOIDetail", (req, res) => {
 const port = process.env.PORT || 3000; //environment variable
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
+});
+
+app.post("/a",[
+    check('QA').custom(array => {
+        console.log(array.length);
+        for(var i=0;i<array.length;i++)
+        {
+            for(var j=0;j<array[i].length;j++)
+            {
+                console.log(array[i][j]);
+                if(array[i][j].length < 1 || array[i][j].length>50)
+                {
+                    throw new Error("not ok");
+                }
+            }
+        }
+        console.log("for end");
+        return true;
+    })
+] ,(req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.log(errors.array());
+        res.send("not ok");
+    }
+    else{
+        console.log("a");
+    res.send("a");
+    }
+    
+});
+users_module.parseCountries();
+
+app.get("/a",(req, res) => {
+    res.send(req.body.some(item => item.name=="Shopping"));
 });
