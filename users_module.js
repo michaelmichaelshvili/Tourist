@@ -33,18 +33,6 @@ async function addUser(user_info) {
     }
 }
 
-async function register(info, res) {
-    var username = info.username;
-    var existUser = existsUser(username);
-    if (!existUser) {
-        var result = await DButilsAzure.execQuery(`INSERT INTO Users_Table 
-                                                    (fname, lname, city, country, email, username, password) 
-                                                    VALUES ('${info.fname}','${info.lname}','${info.city}','${info.country}','${info.email}','${info.username}','${jsha.sha256('a')}')`);
-        //Todo: check if result ok
-        // res
-    }
-}
-
 async function deleteUser(username) {
     try {
         await DButilsAzure.execQuery("DELETE FROM Users_TAble WHERE username = '" + username + "'");
@@ -60,7 +48,7 @@ async function deleteUser(username) {
 
 async function getUser(username) {
     try {
-        const user = await DButilsAzure.execQuery("SELECT * FROM Users_Table WHERE username = '" + username + "'");
+        const user = await DButilsAzure.execQuery(`SELECT * FROM Users_Table WHERE username = '${username}'`);
         return user;
     } catch (error) {
         console.log(error);
@@ -94,15 +82,17 @@ async function restore_password(info, res) {
 async function login(info, res) {
     var result = getUser(info.username);
     if (result.length > 0) {
-        if (jsha.sha256(info.password) == result[0].password) {
-            // Todo:  res-> return ok signal
+        if (info.password == result[0].password) {
+            return true;
         }
         else {
             console.log("password incorrect");
+            return false;
         }
     }
     else {
         console.log("not exists such user");
+        return false;
     }
 }
 

@@ -35,21 +35,12 @@ async function getMostPopularPOI(info, res) {
 
 
 async function RankPOI(info, res) {
-    // const review = await DButilsAzure.execQuery(`SELECT * FROM Table_1 WHERE poi_name = ${info.poi_name} AND reviewer_name = ${info.reviewer_name}`);
-    // if(review.length==1)
-    // {
-    //     //update
-    //     await DButilsAzure.execQuery(`UPDATE Table_1 SET  (poi_name,reviewer_name,rate,review_content) VALUES ('${info.poi_name}','${info.reviewer_name}','${info.rate}','${info.review_content}')  WHERE poi_name = ${info.poi_name} AND reviewer_name = ${info.reviewer_name}`);
-    // }
-    // else
-    // {
-    //     create
     // assumption: poi exists
     await DButilsAzure.execQuery(`INSERT INTO Table_1 (poi_name,reviewer_name,rate,review_content) VALUES ('${info.poi_name}','${info.reviewer_name}','${info.rate}','${info.review_content}')`);
     const count_sql = await DButilsAzure.execQuery(`SELECT COUNT(*) FROM Table_1 WHERE poi_name = ${info.poi_name}`);
     const rate_sql = await DButilsAzure.execQuery(`SELECT rate FROM POI_Table WHERE name = ${info.poi_name}`);
     var rate = rate_sql[0].rate;
-    var count = count_sql[0].count;//.COUNT?
+    var count = count_sql[0].count;
     await DButilsAzure.execQuery(`UPDATE POI_Table SET rate = '${(rate * (count - 1) + info.rate) / count}' WHERE name = ${info.poi_name}`);
 
     // }

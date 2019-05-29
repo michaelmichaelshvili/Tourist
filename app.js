@@ -8,7 +8,7 @@ var poi_module  = require('./poi_module');
 const jsha = require("js-sha256");
 const { check, validationResult } = require('express-validator/check');
 
-var secret = "Eran&Michael4Life";
+var secret = "Eran&Michael4Life";//TODO: use to encrypt password
 
 app.post("/private", (req, res) => {
     const token = req.header("x-auth-token");
