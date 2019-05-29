@@ -2,10 +2,8 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.json())
-var DButilsAzure = require('./DButils');
 var users_module  = require('./users_module');
 var poi_module  = require('./poi_module');
-const jsha = require("js-sha256");
 const { check, validationResult } = require('express-validator/check');
 var jwt = require("jsonwebtoken");
 
@@ -28,16 +26,16 @@ app.use("/private", (req, res,next) => {
 
 //Register.   JSON({fname, lname, city, country, email, username, password, interests, Q&A’s}).
 app.post("/Register",[
-    check('username').isLength(3,8),
-    check('username').isAlpha(),
-    check('password').isLength(5,10),
-    check('password').isAlphanumeric(),
-    check('firstname').isLength({min: 1, max: 50}),
-    check('firstname').isAlpha(),
-    check('lastname').isLength({min: 1, max: 50}),
-    check('lastname').isAlpha(),
-    check('city').isLength({min: 1, max: 50}),
-    check('email').isEmail(),
+    check('username').isLength(3,8).withMessage("user name must be in lenth between 3-8"),
+    check('username').isAlpha().withMessage("user name must be only letters"),
+    check('password').isLength(5,10).withMessage("password need to be 5-10 length"),
+    check('password').isAlphanumeric().withMessage("password must be only letters or digits"),
+    check('firstname').isLength({min: 1, max: 50}).withMessage("first name must be 1-50 length"),
+    check('firstname').isAlpha().withMessage("first name must be only letters"),
+    check('lastname').isLength({min: 1, max: 50}).withMessage("last name must be 1-50 length"),
+    check('lastname').isAlpha().withMessage("last name must be only letters"),
+    check('city').isLength({min: 1, max: 50}).withMessage("city name must be 1-50 length"),
+    check('email').isEmail().withMessage("invalid mail"),
     check('QA').custom(array => {
         for(var i=0;i<array.length;i++)
         {
@@ -49,16 +47,24 @@ app.post("/Register",[
                 }
             }
         }
+        if(array.length<2)
+        {
+            throw new Error("You must answer at least two question");
+        }
         return true;
     })
 ], (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        console.log(errors.array());
-        res.send("register fail");
+        messages = [];
+        for(var i=0;i<errors.array().length;i++)
+        {
+            messages[i] = errors.array()[i].msg;
+        }
+        res.send(messages);
     }
     else {
-        users_module.addUser(req.body, res)
+        users_module.addUser(req.body)
             .then(result => res.send(result))
             .catch(error => res.send(error.message));
     }
@@ -67,7 +73,7 @@ app.post("/Register",[
 //Login.  JSON({Username, Password}).  Token
 app.post("/login", (req, res) => {
     console.log("enter");
-    users_module.login(req.body,res)
+    users_module.login(req.body)
         .then(function(result){
             console.log("then");
             if(result)
@@ -77,7 +83,7 @@ app.post("/login", (req, res) => {
                 res.send(token);
             }
             else{
-                res.send("User not exists");
+                res.send("User or password does not exists");
             }
         })
         .catch(error=>res.send(error.message));
@@ -86,50 +92,67 @@ app.post("/login", (req, res) => {
 
 
 app.post("/restore_password", (req, res) => {
-    users_module.restore_password(req.body,res)
+    users_module.restore_password(req.body)
         .then(result=>res.send(result))
         .catch(error=>res.send(error.message));
-    // res.send(req.password);
 });
 
 app.get("/getAllCategories", (req, res) => {
-    poi_module.getAllCategories(req.body, res)
+    poi_module.getAllCategories()
     .then(result=>res.send(result))
     .catch(error=>res.send(error.message));
 });
 
 app.get("/getAllPOI", (req, res) => {
-    poi_module.getAllPOI(req.body, res)
+    poi_module.getAllPOI()
     .then(result=>res.send(result))
     .catch(error=>res.send(error.message));
 });
 
 app.get("/private/getLastSavePOI", (req, res) => {
-    poi_module.getLastSavePOI(req.body, res)
+    poi_module.getLastSavePOI(req.body)
     .then(result=>res.send(result))
     .catch(error=>res.send(error.message));
 });
 
 app.post("/private/saveAsFavorites", (req, res) => {
-    poi_module.saveAsFavorites(req.body, res)
+    poi_module.saveAsFavorites(req.body)
     .then(result=>res.send(result))
     .catch(error=>res.send(error.message));
 });
 
-app.post("/private/RankPOI", (req, res) => {
-    poi_module.RankPOI(req.body, res)
+app.post("/private/RankPOI",[
+    check("rate").custom(rate=>
+        {if(rate<1||rate>5)
+        {
+            throw new Error("rank need to be between 1-5");
+        }
+        return true;
+        })
+], (req, res) => {  
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        messages = [];
+        for(var i=0;i<errors.array().length;i++)
+        {
+            messages[i] = errors.array()[i].msg;
+        }
+        res.send(messages);
+    }
+    poi_module.RankPOI(req.body)
     .then(result=>res.send(result))
     .catch(error=>res.send(error.message));
 });
 
+//return one point for 2 categories of the user
 app.get("/private/getMostPopularPOI", (req, res) => {
-    var pois = poi_module.getMostPopularPOI(req.body, res)
+    poi_module.getMostPopularPOI(req.body)
     .then(result=>res.send(result))
     .catch(error=>res.send(error.message));
 });
 
 app.get("/private/getFavoritePOI", (req, res) => {
-    var pois = poi_module.getFavoritePOI(req.body, res)
+    poi_module.getFavoritePOI(req.body)
     .then(result=>res.send(result))
     .catch(error=>res.send(error.message));
 });
@@ -137,13 +160,13 @@ app.get("/private/getFavoritePOI", (req, res) => {
 
 
 app.get("/getRandomPOI", (req, res) => {
-    poi_module.getRandomPOI(req.body, res)
+    poi_module.getRandomPOI(req.body)
     .then(result=>res.send(result))
     .catch(error=>res.send(error.message));
 });
 
 app.get("/getPOIDetail", (req, res) => {
-    poi_module.getPOIDetail(req.body, res)
+    poi_module.getPOIDetail(req.body)
     .then(result=>res.send(result))
     .catch(error=>res.send(error.message));
 });

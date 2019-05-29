@@ -2,24 +2,23 @@ var DButilsAzure = require('./DButils');
 
 async function getPOIDetail(info) {
     const poi = await DButilsAzure.execQuery("SELECT * FROM POI_Table WHERE name = '" + info.name + "'");
-    if (poi.length == 1)
+    const reviews = await DButilsAzure.execQuery(`SELECT TOP 2 rate,review_content FROM Users_Reviews_Table WHERE poi_name='${info.name}' ORDER BY date DESC `)
+    if (poi.length == 1){
+        poi[0].reviews = reviews;
         return poi[0];
-    throw new Error("Point not exists");
-
+    }
+    throw new Error("Point does not exists");
 }
 
 
-
-async function getRandomPOI(info, res) {
-    var minimalRank = info.minimalRank || 3.5;
+async function getRandomPOI(info) {
+    var minimalRank = Math.min(info.minimalRank||5 ,1);
     var number_of_elements = 3;
     const poi = await DButilsAzure.execQuery(`SELECT TOP ${number_of_elements} * FROM POI_Table WHERE rate >= ${minimalRank} ORDER BY newid()`);
     return poi;
 }
 
-
-
-async function getMostPopularPOI(info, res) {
+async function getMostPopularPOI(info) {
     var number_of_categories = info.number_of_categories || 2;
     const categories = await DButilsAzure.execQuery(`SELECT TOP ${number_of_categories} category_name FROM Users_Categories_Table WHERE username = '${info.username}' ORDER BY newid()`);
     var number_of_elements = info.number_of_elements || 1;
@@ -31,11 +30,11 @@ async function getMostPopularPOI(info, res) {
     return pois;
 }
 
-
-
 async function RankPOI(info) {
     try {
-        await DButilsAzure.execQuery(`INSERT INTO Users_Reviews_Table (poi_name,reviewer_name,rate,review_content) VALUES ('${info.poi_name}','${info.reviewer_name}','${info.rate}','${info.review_content}')`);
+        info.name=info.poi_name;
+        const detail = await getPOIDetail(info);
+        await DButilsAzure.execQuery(`INSERT INTO Users_Reviews_Table (poi_name,reviewer_name,rate,review_content) VALUES ('${info.poi_name}','${info.username}','${info.rate}','${info.review_content}')`);
         const count_sql = await DButilsAzure.execQuery(`SELECT COUNT(*) as count FROM Users_Reviews_Table WHERE poi_name = '${info.poi_name}'`);
         const rate_sql = await DButilsAzure.execQuery(`SELECT rate FROM POI_Table WHERE name = '${info.poi_name}'`);
         var rate = rate_sql[0].rate;
@@ -44,7 +43,7 @@ async function RankPOI(info) {
         return true;
     }
     catch (error) {
-        return error
+        throw error;
     }
 
 }
@@ -54,34 +53,27 @@ async function getFavoritePOI(info){
     return pois;
 }
 
-async function saveAsFavorites(info){
-    var pois = "'"+info.pois.join("','")+"'";
-    try{
-        await DButilsAzure.execQuery(`DELETE FROM Users_POI_Table WHERE username = '${info.username}' AND poi_name NOT IN (${pois})`);
-        for(var i=0;i<info.pois.length;i++)
+async function saveAsFavorites(info) {
+    var pois = "'" + info.pois.join("','") + "'";
+    await DButilsAzure.execQuery(`DELETE FROM Users_POI_Table WHERE username = '${info.username}' AND poi_name NOT IN (${pois})`);
+    for (var i = 0; i < info.pois.length; i++) {
+        const result = await DButilsAzure.execQuery(`SELECT * FROM Users_POI_Table WHERE username = '${info.username}' AND poi_name = '${info.pois[i]}'`);
+        if (result.length == 1)//if exists
         {
-            const result = await DButilsAzure.execQuery(`SELECT * FROM Users_POI_Table WHERE username = '${info.username}' AND poi_name = '${info.pois[i]}'`);
-            if(result.length == 1)//if exists
-            {
-                await DButilsAzure.execQuery(`UPDATE Users_POI_Table SET rank = '${i+1}' WHERE username = '${info.username}' AND poi_name = '${info.pois[i]}'`);
-                //update row.rank to i
-            }
-            else{
-                await DButilsAzure.execQuery(`INSERT INTO Users_POI_Table (username,poi_name,rank) VALUES ('${info.username}','${info.pois[i]}','${i+1}')`);
-                //insert with rank = i
-            }
+            //update row.rank to i
+            await DButilsAzure.execQuery(`UPDATE Users_POI_Table SET rank = '${i + 1}' WHERE username = '${info.username}' AND poi_name = '${info.pois[i]}'`);
         }
-        return true;
+        else {
+            //insert with rank = i
+            await DButilsAzure.execQuery(`INSERT INTO Users_POI_Table (username,poi_name,rank) VALUES ('${info.username}','${info.pois[i]}','${i + 1}')`);
+        }
     }
-    catch (error)
-    {
-        return error;
-    }
+    return true;
 }
 
 
 
-async function getLastSavePOI(info, res) {
+async function getLastSavePOI(info) {
     var number_of_elements = info.number_of_elements || 2;
     const pois = await DButilsAzure.execQuery(`SELECT TOP ${number_of_elements} * FROM Users_POI_Table WHERE username = '${info.username}' ORDER BY date DESC`);
     var pois_return = [];
@@ -95,16 +87,21 @@ async function getLastSavePOI(info, res) {
 
 
 
-async function getAllPOI(info, res) {
+async function getAllPOI() {
     const allPois = await DButilsAzure.execQuery(`SELECT * FROM POI_Table`);
     return allPois;
 }
 
 
 
-async function getAllCategories(info, res) {
+async function getAllCategories() {
     const allCategories = await DButilsAzure.execQuery(`SELECT name FROM Categories_Table`);
-    return allCategories;
+    categories = [];
+    for(var i=0;i<allCategories.length;i++)
+    {
+        categories[i] = allCategories[i].name;
+    }
+    return categories;
 }
 
 module.exports.getPOIDetail = getPOIDetail;
