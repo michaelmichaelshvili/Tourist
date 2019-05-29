@@ -19,7 +19,7 @@ async function parseCountries() {
 
 async function existsUser(username) {
     try {
-        var result = await DButilsAzure.execQuery("SELECT * FROM Users_Table WHERE id = '" + username + "'");
+        var result = await DButilsAzure.execQuery("SELECT * FROM Users_Table WHERE username = '" + username + "'");
         if (result.length == 1) {
             return true;
         }
@@ -87,17 +87,6 @@ async function addUser(user_info) {
     }
 }
 
-async function register(info, res) {
-    var username = info.username;
-    var existUser = existsUser(username);
-    if (!existUser) {
-        var result = await DButilsAzure.execQuery(`INSERT INTO Users_Table 
-                                                    (fname, lname, city, country, email, username, password) 
-                                                    VALUES ('${info.fname}','${info.lname}','${info.city}','${info.country}','${info.email}','${info.username}','${jsha.sha256('a')}')`);
-        //Todo: check if result ok
-        // res
-    }
-}
 
 async function deleteUser(username) {
     try {
@@ -132,11 +121,14 @@ async function restore_password(info, res) {
     var user_exists = existsUser(info.username);
     if (user_exists) {
         const qa = await getUserQuestionAnswer(info.username);
-        var coorectQA = qa.some(item=>item.question_id==info.question&&item.answer==info.answer);
-        if(coorectQA)
+        var correctQA = qa.some(item=>item.question_id==info.question&&item.answer==info.answer);
+        if(correctQA)
         {
-            const password = await DButilsAzure.execQuery(`SELECT password From Users_Table WHERE username = ${info.username}`);
+            const password = await DButilsAzure.execQuery(`SELECT password FROM Users_Table WHERE username = '${info.username}'`);
             return password;
+        }
+        else{
+            return false;
         }
     }
     else {
