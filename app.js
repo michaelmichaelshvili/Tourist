@@ -3,99 +3,81 @@ const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.json())
 var DButilsAzure = require('./DButils');
+var users_module  = require('./users_module');
+var poi_module  = require('./poi_module');
 const jsha = require("js-sha256");
-// jsha.sha256()
 
+var secret = "Eran&Michael4Life";
 
-async function getUser() {
-    await DButilsAzure.execQuery("INSERT INTO Users_Table VALUES ('a','"+jsha.sha256('a')+"')");
-
+app.post("/private", (req, res) => {
+    const token = req.header("x-auth-token");
+    if (!token) res.status(401).send("Access denied. No token provided.");
     try {
-        const user = await DButilsAzure.execQuery("SELECT * FROM Users_Table")
-        return user;
-    } catch (error) {
-        console.log(error)
+        const decoded = jwt.verify(token, secret);
+        req.decoded = decoded;
+        next();
+    } catch (exception) {
+		console.log(exception);
+        res.status(400).send("Invalid token.");
     }
-}
-// app.get("/a", (req, res) => {
-//     getUser()
-//     .then(function(result){
-//         res.send(result)
-//     })
-//     .catch(function(err){
-//         console.log(err)
-//         res.send(err)
-//     })
-// });
+});
 
-// app.post("/password", (req, res) => {
-//     console.log(req.body);
-//     res.send("ok");
-// });
+//Register.   JSON({fname, lname, city, country, email, username, password, interests, Q&A’s}).
+app.post("/Register", (req, res) => {
+    users_module.register(req.body,res)
+        .then(result=>res.send(result))
+        .catch(error=>res.send(error.message));
+    
+});
 
-// // getPOIDetail.  ({pointName}).  JSON({viewNum, description, rating, reviews})
-// app.get("/", (req, res) => {
-//     res.send("sasasd");
-// });
-
-// //getRandomPOI. - (or minimalRank as parameter).  JSON({POI's})
-// app.get("/", (req, res) => {
-//     res.send("hellosas");
-// });
-
-// //getFavoritePOI.   JSON({username}).   JSON({POI's})   
-// app.get("/", (req, res) => {
-//     res.send("hellosas");
-// });
-
-// //getMostPopularPOI.   JSON({username}).  JSON({POI's})
-// app.get("/", (req, res) => {
-//     res.send("hellosas");
-// });
-
-// //getLastSavePOI.   JSON({username}).   JSON({POI's})
-// app.get("/", (req, res) => {
-//     res.send("hellosas");
-// });
+//Login.  JSON({Username, Password}).  Token
+app.post("/login", (req, res) => {
+    users_module.login(req.body,res)
+        .then(result=>res.send(result))
+        .catch(error=>res.send(error.message));
+    // res.send(req.password);
+});
 
 
-// //getAllPOI.        .  JSON({POI's})
-// app.get("/", (req, res) => {
-//     res.send("hellosas");
-// });
+app.post("/restore_password", (req, res) => {
+    users_module.restore_password(req.body,res)
+        .then(result=>res.send(result))
+        .catch(error=>res.send(error.message));
+    // res.send(req.password);
+});
 
-// //getAllCategory.     . JSON({categories})
-// app.get("/", (req, res) => {
-//     res.send("hellosas");
-// });
+app.get("/getAllCategories", (req, res) => {
+    poi_module.getAllCategories(req.body, res)
+    .then(result=>res.send(result))
+    .catch(error=>res.send(error.message));
+});
 
+app.get("/getAllPOI", (req, res) => {
+    poi_module.getAllPOI(req.body, res)
+    .then(result=>res.send(result))
+    .catch(error=>res.send(error.message));
+});
 
+app.get("/getLastSavePOI", (req, res) => {
+    poi_module.getLastSavePOI(req.body, res);
+    res.send("ok");
+});
 
-// //Login.  JSON({Username, Password}).  Token
-// app.post("/login", (req, res) => {
-//     res.send(req.password);
-// });
-
-// //RestorePassword.  JSON ({username,question,answer}).    password
-// app.post("/", (req, res) => {
-//     res.send("hellosas");
-// });
-
-// //Register.   JSON({fname, lname, city, country, email, username, password, interests, Q&A’s}).   
-// app.post("/Register", (req, res) => {
-//     res.send("hellosas");
-// });
-
-// //saveAsFavorites.   JSON({username,pointNames}).   
-// app.post("/", (req, res) => {
-//     res.send("hellosas");
-// });
-
-// //reviewPOI.   JSON({username, review })
-// app.post("/", (req, res) => {
-//     res.send("hellosas");
-// });
-
+app.get("/RankPOI", (req, res) => {
+    poi_module.RankPOI(req.body, res);
+    res.send("ok");
+});
+app.get("/getMostPopularPOI", (req, res) => {
+    var pois = poi_module.getMostPopularPOI(req.body, res);
+    res.send(pois);
+});
+app.get("/getRandomPOI", (req, res) => {
+    poi_module.getRandomPOI(req.body, res);
+    res.send("ok");
+});
+app.get("/getPOIDetail", (req, res) => {
+    poi_module.getPOIDetail(req.body, res)
+});
 
 const port = process.env.PORT || 3000; //environment variable
 app.listen(port, () => {
