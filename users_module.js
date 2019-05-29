@@ -17,7 +17,7 @@ async function existsUser(username) {
 
 async function addUser(user_info) {
     try {
-        await DButilsAzure.execQuery("INSERT INTO Users_Table VALUES ('" + user_info.username + "', '" + jsha.sha256(user_info.password) + "', '" + user_info.firstname + "', '" + user_info.lastname + "', '" + user_info.city + "','" + user_info.country + "', '" + user_info.email + "')");
+        await DButilsAzure.execQuery("INSERT INTO Users_Table (username,password,firstname,lastname,city,country,email) VALUES ('" + user_info.username + "', '" + jsha.sha256(user_info.password) + "', '" + user_info.firstname + "', '" + user_info.lastname + "', '" + user_info.city + "','" + user_info.country + "', '" + user_info.email + "')");
         for (var i = 0; i < Object.keys(user_info.categories).length; i++) {
             await DButilsAzure.execQuery("INSERT INTO Users_Categories_Table VALUES (" + user_info.username + "','" + user_info.categories[i] + "')");
         }

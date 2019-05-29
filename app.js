@@ -6,6 +6,7 @@ var DButilsAzure = require('./DButils');
 var users_module  = require('./users_module');
 var poi_module  = require('./poi_module');
 const jsha = require("js-sha256");
+const { check, validationResult } = require('express-validator/check');
 
 var secret = "Eran&Michael4Life";
 
@@ -23,8 +24,19 @@ app.post("/private", (req, res) => {
 });
 
 //Register.   JSON({fname, lname, city, country, email, username, password, interests, Q&A’s}).
-app.post("/Register", (req, res) => {
-    users_module.register(req.body,res)
+app.post("/Register",[
+    check('username').isLength(3,8),
+    check('username').isAlpha(),
+    check('password').isLength(5,10),
+    check('password').isAlphanumeric(),
+    check('firstname').isLength({min: 1, max: 50}),
+    check('firstname').isAlpha(),
+    check('lastname').isLength({min: 1, max: 50}),
+    check('lastname').isAlpha(),
+    check('city').isLength({min: 1, max: 50}),
+    check('email').isEmail(),
+] ,(req, res) => {
+    users_module.addUser(req.body,res)
         .then(result=>res.send(result))
         .catch(error=>res.send(error.message));
     
