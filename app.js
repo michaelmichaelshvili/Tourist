@@ -7,15 +7,18 @@ var users_module  = require('./users_module');
 var poi_module  = require('./poi_module');
 const jsha = require("js-sha256");
 const { check, validationResult } = require('express-validator/check');
+var jwt = require("jsonwebtoken");
 
 var secret = "Eran&Michael4Life";
+options = {expiresIn: "12h"};
 
-app.post("/private", (req, res) => {
+app.use("/private", (req, res,next) => {
     const token = req.header("x-auth-token");
     if (!token) res.status(401).send("Access denied. No token provided.");
     try {
         const decoded = jwt.verify(token, secret);
         req.decoded = decoded;
+        req.body.username = decoded.username;
         next();
     } catch (exception) {
 		console.log(exception);
@@ -63,8 +66,20 @@ app.post("/Register",[
 
 //Login.  JSON({Username, Password}).  Token
 app.post("/login", (req, res) => {
+    console.log("enter");
     users_module.login(req.body,res)
-        .then(result=>res.send(result))
+        .then(function(result){
+            console.log("then");
+            if(result)
+            {
+                var payload = {username: req.body.username};
+                const token = jwt.sign(payload, secret, options);
+                res.send(token);
+            }
+            else{
+                res.send("User not exists");
+            }
+        })
         .catch(error=>res.send(error.message));
     // res.send(req.password);
 });
@@ -89,63 +104,51 @@ app.get("/getAllPOI", (req, res) => {
     .catch(error=>res.send(error.message));
 });
 
-app.get("/getLastSavePOI", (req, res) => {
-    poi_module.getLastSavePOI(req.body, res);
-    res.send("ok");
+app.get("/private/getLastSavePOI", (req, res) => {
+    poi_module.getLastSavePOI(req.body, res)
+    .then(result=>res.send(result))
+    .catch(error=>res.send(error.message));
 });
 
-app.get("/RankPOI", (req, res) => {
-    poi_module.RankPOI(req.body, res);
-    res.send("ok");
+app.post("/private/saveAsFavorites", (req, res) => {
+    poi_module.saveAsFavorites(req.body, res)
+    .then(result=>res.send(result))
+    .catch(error=>res.send(error.message));
 });
-app.get("/getMostPopularPOI", (req, res) => {
-    var pois = poi_module.getMostPopularPOI(req.body, res);
-    res.send(pois);
+
+app.post("/private/RankPOI", (req, res) => {
+    poi_module.RankPOI(req.body, res)
+    .then(result=>res.send(result))
+    .catch(error=>res.send(error.message));
 });
+
+app.get("/private/getMostPopularPOI", (req, res) => {
+    var pois = poi_module.getMostPopularPOI(req.body, res)
+    .then(result=>res.send(result))
+    .catch(error=>res.send(error.message));
+});
+
+app.get("/private/getFavoritePOI", (req, res) => {
+    var pois = poi_module.getFavoritePOI(req.body, res)
+    .then(result=>res.send(result))
+    .catch(error=>res.send(error.message));
+});
+
+
+
 app.get("/getRandomPOI", (req, res) => {
-    poi_module.getRandomPOI(req.body, res);
-    res.send("ok");
+    poi_module.getRandomPOI(req.body, res)
+    .then(result=>res.send(result))
+    .catch(error=>res.send(error.message));
 });
+
 app.get("/getPOIDetail", (req, res) => {
     poi_module.getPOIDetail(req.body, res)
+    .then(result=>res.send(result))
+    .catch(error=>res.send(error.message));
 });
 
 const port = process.env.PORT || 3000; //environment variable
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
-});
-
-app.post("/a",[
-    check('QA').custom(array => {
-        console.log(array.length);
-        for(var i=0;i<array.length;i++)
-        {
-            for(var j=0;j<array[i].length;j++)
-            {
-                console.log(array[i][j]);
-                if(array[i][j].length < 1 || array[i][j].length>50)
-                {
-                    throw new Error("not ok");
-                }
-            }
-        }
-        console.log("for end");
-        return true;
-    })
-] ,(req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        console.log(errors.array());
-        res.send("not ok");
-    }
-    else{
-        console.log("a");
-    res.send("a");
-    }
-    
-});
-users_module.parseCountries();
-
-app.get("/a",(req, res) => {
-    res.send(req.body.some(item => item.name=="Shopping"));
 });
