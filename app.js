@@ -8,9 +8,9 @@ const { check, validationResult } = require('express-validator/check');
 var jwt = require("jsonwebtoken");
 
 var secret = "Eran&Michael4Life";
-options = {expiresIn: "12h"};
+options = { expiresIn: "12h" };
 
-app.use("/private", (req, res,next) => {
+app.use("/private", (req, res, next) => {
     const token = req.header("x-auth-token");
     if (!token) res.status(401).send("Access denied. No token provided.");
     try {
@@ -19,7 +19,7 @@ app.use("/private", (req, res,next) => {
         req.body.username = decoded.username;
         next();
     } catch (exception) {
-		console.log(exception);
+        console.log(exception);
         res.status(400).send("Invalid token.");
     }
 });
@@ -37,12 +37,9 @@ app.post("/Register",[
     check('city').isLength({min: 1, max: 50}).withMessage("city name must be 1-50 length"),
     check('email').isEmail().withMessage("invalid mail"),
     check('QA').custom(array => {
-        for(var i=0;i<array.length;i++)
-        {
-            for(var j=0;j<array[i].length;j++)
-            {
-                if(array[i][j].length < 1 || array[i][j].length>50)
-                {
+        for (var i = 0; i < array.length; i++) {
+            for (var j = 0; j < array[i].length; j++) {
+                if (array[i][j].length < 1 || array[i][j].length > 50) {
                     throw new Error("answer or question is not good");
                 }
             }
@@ -76,9 +73,8 @@ app.post("/login", (req, res) => {
     users_module.login(req.body)
         .then(function(result){
             console.log("then");
-            if(result)
-            {
-                var payload = {username: req.body.username};
+            if (result) {
+                var payload = { username: req.body.username };
                 const token = jwt.sign(payload, secret, options);
                 res.send(token);
             }
@@ -86,7 +82,7 @@ app.post("/login", (req, res) => {
                 res.send("User or password does not exists");
             }
         })
-        .catch(error=>res.send(error.message));
+        .catch(error => res.send(error.message));
     // res.send(req.password);
 });
 
@@ -156,8 +152,6 @@ app.get("/private/getFavoritePOI", (req, res) => {
     .then(result=>res.send(result))
     .catch(error=>res.send(error.message));
 });
-
-
 
 app.get("/getRandomPOI", (req, res) => {
     poi_module.getRandomPOI(req.body)

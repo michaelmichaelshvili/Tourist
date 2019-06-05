@@ -25,6 +25,7 @@ async function existsUser(username) {
     return false;
 
 }
+
 async function addUser(user_info) {
     try {
         var isValidCountry = false;
@@ -57,8 +58,8 @@ async function addUser(user_info) {
                 return false;
             }
             try {
-                for (var i = 0; i < Object.keys(user_info.QA).length; i++) {
-                    await DButilsAzure.execQuery("INSERT INTO Users_QA_Table VALUES ('" + user_info.username + "','" + user_info.QA[i][0] + "','" + user_info.QA[i][1] + "')");
+                for (var i = 0; i < Object.keys(user_info.QAs).length; i++) {
+                    await DButilsAzure.execQuery("INSERT INTO Users_QA_Table VALUES ('" + user_info.username + "','" + user_info.QAs[i][0] + "','" + user_info.QAs[i][1] + "')");
                 }
             } catch (error) {
                 return false;
@@ -66,12 +67,10 @@ async function addUser(user_info) {
             return true;
         }
         else {
-            if(!isValidCountry)
-            {
+            if (!isValidCountry) {
                 throw new Error("invalid country");
             }
-            if(!isValidcategories)
-            {
+            if (!isValidcategories) {
                 throw new Error("invalid categories");
             }
         }
@@ -81,10 +80,9 @@ async function addUser(user_info) {
     }
 }
 
-
 async function getUser(username) {
     try {
-        const user = await DButilsAzure.execQuery("SELECT * FROM Users_Table WHERE username = '" + username + "'");
+        const user = await DButilsAzure.execQuery(`SELECT * FROM Users_Table WHERE username = '${username}'`);
         return user;
     } catch (error) {
         console.log(error);
@@ -131,11 +129,7 @@ async function login(info) {
     }
 }
 
-module.exports.existsUser = existsUser;
+//functions
 module.exports.addUser = addUser;
-module.exports.getUser = getUser;
 module.exports.restore_password = restore_password;
 module.exports.login = login;
-module.exports.parseCountries = parseCountries;
-module.exports.jsonContries = jsonContries;
-
