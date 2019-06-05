@@ -15,8 +15,7 @@ async function parseCountries() {
         });
     });
 }
-await parseCountries();
-
+parseCountries();
 async function existsUser(username) {
 
     var result = await DButilsAzure.execQuery("SELECT * FROM Users_Table WHERE username = '" + username + "'");
@@ -77,7 +76,7 @@ async function addUser(user_info) {
         }
     }
     catch (error) {
-        return false;
+        throw error;
     }
 }
 
@@ -111,7 +110,7 @@ async function restore_password(info) {
         }
     }
     else {
-        throw new Error("User not exists");
+        throw new Error("User does not exists");
     }
 }
 
