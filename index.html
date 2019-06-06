@@ -1,19 +1,22 @@
-<html np-app="myApp">
+<html>
 
 <head>
     <title>myApp</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.js"></script>
-    <script src="https://code.angularjs.org/1.7.8/angular-route.js"></script>
 </head>
 
-<body>
+<body ng-app="myApp">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.js"></script>
+    <script src="https://code.angularjs.org/1.7.8/angular-route.js"></script>
+    <script src="app2.js"></script>
+    <script src="/pages/poi/poiController.js"></script>
+
     <div class="header">
-        <a ng-href="#/">
+        <a ng-href="#!">
             <img src="Capture.PNG">
         </a>
         <a ng-href="#!login">login</a>
         <a ng-href="#!register">register</a>
-        <a ng-href="#!poi/gg">login</a>
+        <a href="#!poi/gg">POI</a>
     </div>
     <div ng-view></div>
 </body>

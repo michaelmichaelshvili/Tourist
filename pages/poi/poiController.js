@@ -1,5 +1,14 @@
-// let app = angular.module('myApp');
-this.poi_name = "Jerusalem";
-app.controller('poiController',function($scope,$routeParams){
-    console.log($routeParams.poi_name);
+angular.module("myApp")
+.controller('poiController', function ($routeParams,$http) {
+        console.log($routeParams.poi_name);
+        $http({
+            method: "GET",
+            url: "http://localhost:3000/getPOIDetail",
+            data: {name:'Biratenu'}
+
+        }).then(function success(response){
+            console.log(response);
+        },function erro(response){
+            console.log("error");
+        });
 });
