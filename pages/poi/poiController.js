@@ -4,7 +4,17 @@ angular.module("myApp")
         $http({
             method: "GET",
             url: "http://localhost:3000/getPOIDetail",
-            params: {name:'Biratenu'}
+            params: {name:$routeParams.poi_name}
+
+        }).then(function success(response){
+            console.log(response);
+        },function erro(response){
+            console.log("error");
+        });
+        $http({
+            method: "POST",
+            url: "http://localhost:3000/restore_password",
+            data: {name:"name"}
 
         }).then(function success(response){
             console.log(response);

@@ -142,6 +142,7 @@ app.post("/private/RankPOI",[
 
 //return one point for 2 categories of the user
 app.get("/private/getMostPopularPOI", (req, res) => {
+    Object.assign(req.body,req.query);
     poi_module.getMostPopularPOI(req.body)
     .then(result=>res.send(result))
     .catch(error=>res.send(error.message));
@@ -154,12 +155,14 @@ app.get("/private/getFavoritePOI", (req, res) => {
 });
 
 app.get("/getRandomPOI", (req, res) => {
+    Object.assign(req.body,req.query);
     poi_module.getRandomPOI(req.body)
     .then(result=>res.send(result))
     .catch(error=>res.send(error.message));
 });
 
 app.get("/getPOIDetail", (req, res) => {
+    Object.assign(req.body,req.query);
     poi_module.getPOIDetail(req.body)
     .then(result=>res.send(result))
     .catch(error=>res.send(error.message));
