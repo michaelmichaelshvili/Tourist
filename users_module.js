@@ -38,7 +38,7 @@ async function addUser(user_info) {
         var posCategories = await poi_module.getAllCategories();
         if (Object.keys(user_info.categories).length >= 2) {
             for (var i = 0; i < Object.keys(user_info.categories).length; i++) {
-                isValidcategories = isValidcategories && posCategories.some(item => item.name == user_info.categories[i]);
+                isValidcategories = isValidcategories && posCategories.some(item => item == user_info.categories[i]);
             }
         }
         else {

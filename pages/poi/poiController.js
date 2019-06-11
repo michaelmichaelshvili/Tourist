@@ -4,8 +4,7 @@ angular.module("myApp")
         $http({
             method: "GET",
             url: "http://localhost:3000/getPOIDetail",
-            params: {name:$routeParams.poi_name}
-
+            data: {name:'Biratenu'}
         }).then(function success(response){
             console.log(response);
         },function erro(response){
