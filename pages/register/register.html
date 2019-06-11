@@ -1,0 +1,37 @@
+<div ng-controller="registerController">
+    <!-- aa{{registerController.jsonContries.Countries.Country[0].Name}} -->
+    <!-- {{_selectedCountry}} -->
+    <!-- {{registerController.selectedCountryId}} -->
+    <form id="registerForm" class="form-style-8" role="form" ng-submit="submit()" >
+        {{answers}}
+        <div>
+            <label for="username">Username</label>
+            <input type="text" placeholder="Enter username" name="username" id="usernameID" required><br>
+
+            <label for="firstname">First name</label>
+            <input type="text" placeholder="Enter your first name" name="firstname" required><br>
+
+            <label for="lastname">Last name</label>
+            <input type="text" placeholder="Enter your last name" name="lastname" required><br>
+
+            <label for="email">Email</label>
+            <input type="text" placeholder="name@domain.com" name="email" required><br>
+
+            <!-- <label for="country">country</label>
+            <select id="country" name="country" ng-model="_selectedCountry" ng-options="c.Name['#text'] as c.Name['#text'] for c in _jsonContries.Countries.Country" required>
+            </select><br> -->
+
+            <label for="categories">categories</label>
+            <!-- <select id="categories" multiple="multiple" class="MultiSelect" ng-model="answers" ng-options="ctg for ctg in _categories" ng-init="$last && doSomething()" required></select> -->
+            <select id="categories" multiple="multiple" class="MultiSelect" ng-model="answers" ng-required="required">
+                <option name="category" value="{{ctg}}" ng-repeat="ctg in _categories" ng-init="$last && doSomething()" >{{ctg}}</option>
+            </select><br>
+
+            <label for="password">Password</label>
+            <input type="password" placeholder="Enter password" name="password" id="passwordID" required><br>
+
+            <button ng-disabled="loginForm.$invalid" type="submit">Register</button>
+            <button type="reset">Reset</button>
+        </div>
+    </form>
+</div>

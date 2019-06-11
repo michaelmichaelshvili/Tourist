@@ -1,0 +1,10 @@
+<div id="loginForm" class="form-style-8" ng-controller="loginController">
+    <form ng-submit="submit()">
+        <label for="username">Username</label>
+        <input ng-model="username" type="text" id="username" placeholder="Enter username" required>
+        <label for="password">password</label>
+        <input ng-model="password" type="password" id="password" placeholder="Enter password" required>
+        <button type="button" ng-disabled="loginForm.$invalid">Login</button>
+    </form>
+    <div>{{_error}}</div>
+</div>

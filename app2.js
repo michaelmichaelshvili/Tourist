@@ -23,8 +23,8 @@ app.config(function($routeProvider)  {
         })
         .when('/register', {
             // this is a template url
-            templateUrl: 'pages/register/register.html',
-            controller : 'registerController'
+            templateUrl: 'pages/register/register.html'
+            // ,controller : 'registerController'
         })
         // other
         .otherwise({ redirectTo: '/' });

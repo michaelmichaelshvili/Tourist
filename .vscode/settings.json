@@ -1,3 +1,4 @@
 {
-    "liveServer.settings.multiRootWorkspaceName": "Tourist"
+    "liveServer.settings.multiRootWorkspaceName": "Tourist",
+    "liveServer.settings.port": 5502
 }

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!-- Varun Dewan 2019 -->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>MultiSelect </title>
+
+  <link rel='stylesheet' href='css/css.css'>
+  <link rel='stylesheet' href='css/icon.css'>
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+  <select multiple="multiple" class="MultiSelect">
+    <option>Item 1</option>
+    <option>item 2</option>
+    <option>item 3</option>
+    <option>item 4</option>
+  </select>
+  <script src="js/index.js"></script>
+  <script>
+
+    var myDrop = new drop({
+      selector: '.MultiSelect'
+    });
+    myDrop.toggle();
+  </script>
+  </div>
+</body>
+
+</html>
