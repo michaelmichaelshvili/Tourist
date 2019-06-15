@@ -1,5 +1,17 @@
 angular.module("myApp")
-    .controller('poiController', function ($scope, $routeParams, $http) {
+    .controller('loginController', function ($window, $scope, $http, $location,sharedProperties,$rootScope) {
+        $scope.username = 'er';
+        $scope.password = 'er';
+
+        $scope.forgot_password = function(){
+            // console.log("check check 1 2");
+            if($scope.username)
+                $location.url(`/forgotPassword/${$scope.username}`);
+            else
+                $location.url(`/forgotPassword`);
+
+        }
+
         $scope.submit = function () {
             $http({
                 method: "POST",
@@ -11,8 +23,13 @@ angular.module("myApp")
                 }
                 // else if(response.data is error)
                 else {
-                    console.log(response);//
-                    var token = response;
+                    // console.log(response.data);
+                    $window.localStorage.setItem('token', response.data);
+                    // sharedProperties.logUser($scope.username);
+                    $rootScope.logUser($scope.username);
+                    //broadcast login
+                    var token = response.data;
+                    $location.path('/');// TODO: to comeback to where you came from? through route param
                 }
             }, function erro(response) {
                 $scope._error = response;

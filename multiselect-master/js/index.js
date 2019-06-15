@@ -64,6 +64,7 @@ var drop = function(info){var o = {
          state: 'add',
          removed: false
       })
+      this.html.options[Number(index)].selected=true;
       this.options[index].state = 'remove';
       this.render()
    },
@@ -77,6 +78,7 @@ var drop = function(info){var o = {
             select.state = 'remove'
          }
       })
+      this.html.options[Number(index)].selected=false;
       this.options[index].state = 'add'
       this.render();
    },

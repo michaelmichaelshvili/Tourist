@@ -21,9 +21,9 @@
             <select id="country" name="country" ng-model="_selectedCountry" ng-options="c.Name['#text'] as c.Name['#text'] for c in _jsonContries.Countries.Country" required>
             </select><br> -->
 
-            <label for="categories">categories</label>
+            <label for="register_categories">categories</label>
             <!-- <select id="categories" multiple="multiple" class="MultiSelect" ng-model="answers" ng-options="ctg for ctg in _categories" ng-init="$last && doSomething()" required></select> -->
-            <select id="categories" multiple="multiple" class="MultiSelect" ng-model="answers" ng-required="required">
+            <select id="register_categories" multiple="multiple" class="MultiSelect" ng-model="answers" ng-required="required">
                 <option name="category" value="{{ctg}}" ng-repeat="ctg in _categories" ng-init="$last && doSomething()" >{{ctg}}</option>
             </select><br>
 

@@ -4,7 +4,8 @@
         <input ng-model="username" type="text" id="username" placeholder="Enter username" required>
         <label for="password">password</label>
         <input ng-model="password" type="password" id="password" placeholder="Enter password" required>
-        <button type="button" ng-disabled="loginForm.$invalid">Login</button>
+        <button type="submit" ng-disabled="loginForm.$invalid">Login</button>
     </form>
     <div>{{_error}}</div>
+    <button ng-click="forgot_password()">forgot password</button>
 </div>

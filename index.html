@@ -6,7 +6,11 @@
     <link rel='stylesheet' href='multiselect-master/css/css.css'>
     <link rel='stylesheet' href='multiselect-master/css/icon.css'>
     <link rel="stylesheet" href="multiselect-master/css/style.css">
+    <link rel="stylesheet" type="text/css" href="pages/poi/poi_list_style.css">
+    <link rel="stylesheet" type="text/css" href="pages/poi/poi_style.css">
+    <link rel="stylesheet" type="text/css" href="circle.css">
     <script src="XMLtoJSON.js"></script>
+
 </head>
 
 <body ng-app="myApp">
@@ -17,16 +21,40 @@
     <script src="/pages/poi/poiController.js"></script>
     <script src="/pages/login/loginController.js"></script>
     <script src="/pages/register/registerController.js"></script>
+    <script src="/pages/forgotPassword/forgotPasswordController.js"></script>
+    <script src="/pages/explore/exploreController.js"></script>
+    <!-- <script ng-controller="maps" async defer ng-src="{{maps_key}}"></script>
+    <script language="JavaScript">
+        function getPassword() {
+            WinId = window.open('','newwin','width=100,height=100');
+            if (!WinId.opener) WinId.opener = self;
+            Text = '<form ';
+            Text += 'onSubmit="opener.location=this.password.value + \'.html\'; self.close()">';
+            Text += '<input type="password" name="password">';
+            Text += '<\/form>';
+            WinId.document.open();
+            WinId.document.write(Text);
+            WinId.document.close();
+        }
+        </script> -->
+
+
     <!-- <script src="xml2json.js"></script> -->
 
-
+    hello {{getStatus()?getUsername():"guest"}}
+    <div ng-show="!getStatus()">
+        please <a ng-href="#!login">login</a> or <a ng-href="#!register">register</a>
+    </div>
+    <div ng-show="getStatus()">
+        <a ng-click="logout()">logout</a>
+    </div>
     <div class="header">
         <a ng-href="#!">
             <img src="Capture.PNG">
         </a>
-        <a ng-href="#!login">login</a>
-        <a ng-href="#!register">register</a>
-        <a href="#!poi/Biratenu">POI</a>
+        <!-- <a ng-href="#!forgotPassword">log</a> -->
+        <!-- <a href="#!poi/Biratenu">POI</a> -->
+        <a ng-show="getStatus()" ng-href="#!explore">explore</a>
     </div>
     <div ng-view></div>
 </body>

@@ -1,0 +1,23 @@
+<div ng-controller="exploreController">
+    <div id="search">
+        <form ng-submit="search()">
+            <label for="entry">entry:</label>
+            <input ng-model="entry" type="text" placeholder="Enter your search" id="entry">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div ng-repeat="(key, value) in pois">
+        <h1>{{key}}</h1>
+
+        <div ng-repeat="poi in value">
+            {{poi.name}}<br>
+            <div style="width: 300;height:300;">
+                <div style="width: 35;height:35;position:absolute;" onclick="alert(1)" class="circle"></div>
+                <a style="width: 300;height:300;" ng-href="#!poi/{{poi.name}}">
+                    <img src="{{poi.picture}}" style="width: 300;height:300;">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div>{{_error}}</div>
+</div>

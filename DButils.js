@@ -46,7 +46,7 @@ exports.execQuery = function (query) {
                     console.log('acquire ' + err);
                     reject(err);
                 }
-                console.log('connection on');
+                // console.log('connection on');
 
                 var dbReq = new Request(query, function (err, rowCount) {
                     if (err) {
