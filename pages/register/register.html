@@ -3,7 +3,9 @@
     <!-- {{_selectedCountry}} -->
     <!-- {{registerController.selectedCountryId}} -->
     <form name="form" id="registerForm" class="form-style-8" role="form" ng-submit="submit()">
-        {{answers}}
+        {{answers}}<br>
+        {{q_answers}}<br>
+        {{questions}}<br>
         <div>
             <div>
                 <label for="username">Username</label>
@@ -63,10 +65,10 @@
             </div>
             <label for="question_answer_restore">Questions and answers for restore</label>
             <div id="question1">
-                <select ng-required="required" value="">
+                <select ng-required="required" value="" ng-model="questions[0]">
                     <option disabled selected value> -- select an question -- </option>
                     <option value="{{ques.name}}" ng-repeat="ques in possibleQuestion">{{ques.name}}</option>
-                    <input type="text" placeholder="your answer">
+                    <input ng-model="q_answers[0]" type="text" placeholder="your answer">
                 </select>
             </div>
             <button ng-click="addField($event)">Add question</button>

@@ -15,6 +15,8 @@ var questionNum = 1;
 angular.module("myApp")
     .controller("registerController", function ($scope, $http, $timeout, $location, $compile) {
         $scope.answers = undefined;
+        $scope.q_answers = [];
+
         // $scope._categories = undefined;
 
         $scope.doSomething = function () {
@@ -40,10 +42,10 @@ angular.module("myApp")
         $scope.addField = function ($event) {
             var Element = document.getElementById(`question${questionNum++}`);
             // var newElement = angular.element(`<div id="question${questionNum}"></div>`);
-            var newElement = angular.element(`<div id="question${questionNum}"><select ng-required="required">
+            var newElement = angular.element(`<div id="question${questionNum}"><select ng-required="required" ng-model="questions[${questionNum}-1]">
                 <option disabled selected value> -- select a question -- </option>
                 <option value="{{ques.name}}" ng-repeat="ques in possibleQuestion">{{ques.name}}</option>
-                <input  type="text" placeholder="your answer">
+                <input  type="text" ng-model="q_answers[${questionNum}-1]" placeholder="your answer">
                 </select></div>`);
             $compile(newElement.contents())($scope);
             Element.parentNode.insertBefore(newElement[0], Element.nextSibling);
