@@ -8,35 +8,35 @@
             <div>
                 <label for="username">Username</label>
                 <input type="text" placeholder="Enter username" name="username" id="usernameID" ng-model="username" required ng-minlength="3" ng-maxlength="8" ng-pattern="/^[a-zA-Z]*$/">
-                <span ng-show="form.username.$error.minlength && form.username.$dirty">Minimum length is 3 <br></span>
-                <span ng-show="form.username.$error.maxlength && form.username.$dirty">Maximum length is 8<br> </span>
-                <span ng-show="form.username.$error.pattern && form.username.$dirty">username contain only letter <br></span>
+                <span class="error" ng-show="form.username.$error.minlength && form.username.$dirty">Minimum length is 3 <br></span>
+                <span class="error" ng-show="form.username.$error.maxlength && form.username.$dirty">Maximum length is 8<br> </span>
+                <span class="error" ng-show="form.username.$error.pattern && form.username.$dirty">username contain only letter <br></span>
             </div>
 
             <div>
                 <label for="password">Password</label>
-                <input type="text" name="password" ng-model="password" required ng-minlength="5" ng-maxlength="10" placeholder="Enter password" ng-pattern="/^[a-zA-Z0-9]*$/">
-                <span ng-show="form.password.$error.minlength && form.password.$dirty">Minimum length is 5 <br></span>
-                <span ng-show="form.password.$error.maxlength && form.password.$dirty">Maximum length is 10 <br></span>
-                <span ng-show="form.password.$error.pattern && form.password.$dirty">password contain only letters or digits
+                <input type="password" name="password" ng-model="password" required ng-minlength="5" ng-maxlength="10" placeholder="Enter password" ng-pattern="/^[a-zA-Z0-9]*$/">
+                <span class="error" ng-show="form.password.$error.minlength && form.password.$dirty">Minimum length is 5 <br></span>
+                <span class="error" ng-show="form.password.$error.maxlength && form.password.$dirty">Maximum length is 10 <br></span>
+                <span class="error" ng-show="form.password.$error.pattern && form.password.$dirty">password contain only letters or digits
                     <br></span>
             </div>
             <div>
                 <label for="firstname">First name</label>
                 <input type="text" placeholder="Enter your first name" ng-model="firstname" name="firstname" required ng-pattern="/^[a-zA-Z]*$/"><br>
-                <span ng-show="form.firstname.$error.pattern && form.firstname.$dirty">firstname contain only letter <br></span>
+                <span class="error" ng-show="form.firstname.$error.pattern && form.firstname.$dirty">firstname contain only letter <br></span>
             </div>
 
             <div>    
                 <label for="lastname">Last name</label>
                 <input type="text" placeholder="Enter your last name" ng-model="lastname" name="lastname" required ng-pattern="/^[a-zA-Z]*$/"><br>
-                <span ng-show="form.lastname.$error.pattern && form.lastname.$dirty">lastname contain only letter <br></span>
+                <span class="error" ng-show="form.lastname.$error.pattern && form.lastname.$dirty">lastname contain only letter <br></span>
             </div>
 
             <div>
                 <label for="email">Email</label>
-                <input type="email" placeholder="name@domain.com" ng-model="email" name="email" required>
-                <span ng-show="form.email.$dirty && form.email.$error.email" class="help-block">Invalid email</span>
+                <input type="email" placeholder="name@domain.com" ng-model="email" name="email" required ng-pattern="/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/">
+                <span class="error" ng-show="form.email.$dirty && form.email.$error.pattern" class="help-block">Invalid email</span>
             </div>
             
             <div>   
@@ -49,7 +49,7 @@
             <div>
                 <label for="firstname">City</label>
                 <input type="text" placeholder="Enter your city" ng-model="city" name="city" required ng-pattern="/^[a-zA-Z]*$/"><br>
-                <span ng-show="form.city.$error.pattern && form.city.$dirty">city contain only letter <br></span>
+                <span class="error" ng-show="form.city.$error.pattern && form.city.$dirty">city contain only letter <br></span>
             </div>
             
             <div>

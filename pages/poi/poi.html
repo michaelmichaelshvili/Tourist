@@ -1,16 +1,17 @@
 <!-- <link rel="stylesheet" type="text/css" href="poi_style.css"> -->
 <div ng-controller="poiController">
-    <h1>{{data.name}}</h1>
-    <!-- <div style="width: 35;height:35;position:absolute;" ng-style="(LocalFavorites.includes(poi.name))?{background:'red'}:{background:'blue'}" ng-click="favorite_select(poi.name)" class="circle bookmark"></div> -->
-    <h4>viewed by {{data.watchers_count}} people</h4>
+    <h1>{{poi.name}}</h1>
+    <div style="width: 35;height:35;position:absolute;" ng-show="getStatus()" ng-style="(LocalFavoritesIncludes(poi.name))?{background:'blue'}:{background:'white'}" ng-click="favorite_select(poi)" class="circle bookmark"></div>
+    <h4>viewed by {{poi.watchers_count}} people</h4>
+    <h4>Rate: {{poi.rate*20}}%</h4>
     <div class="container" id="div1">
-        <img height="100%" width="100%" ng-src="{{data.picture}}">
+        <img height="100%" width="100%" ng-src="{{poi.picture}}">
         <!-- src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/David%27s_Tower_1.jpg/1024px-David%27s_Tower_1.jpg"> -->
 
         <div id="description">
             <h3 class="no-margin-top">Description</h3>
             <p>
-                {{data.description}}
+                {{poi.description}}
             </p>
 
         </div>
@@ -44,7 +45,7 @@
                             <span class="label" id="stars"> Rating: </span>
                             <br><br><br><br><br><br><br><br>
                             <textarea rows="4" cols="50" id="textarea">
-                                </textarea>
+                            </textarea>
                             <button ng-click="sendRate()">Submit</button>
                             <button ng-click="closeModal()">Close</button>
                         </form>

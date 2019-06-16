@@ -78,7 +78,7 @@ async function getLastSavePOI(info) {
     var number_of_elements = info.number_of_elements || 2;
     const pois = await DButilsAzure.execQuery(`SELECT TOP ${number_of_elements} * FROM Users_POI_Table WHERE username = '${info.username}' ORDER BY date DESC`);
     var pois_return = [];
-    for (var i = 0; i < number_of_elements; i++) {
+    for (var i = 0; i < pois.length; i++) {
         const poi = await DButilsAzure.execQuery(`SELECT * FROM POI_Table WHERE name = '${pois[i].poi_name}'`);
         pois_return[i] = poi;//TODO clone
     }

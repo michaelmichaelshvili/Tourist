@@ -1,8 +1,19 @@
-<div ng-controller="homeController">
+<div ng-controller="homeController" style="display: flex;flex-direction: row;">
 
     <div ng-show="getStatus()" id="popularPois">
         <h2>Popular points</h2><br>
         <div ng-repeat="poi in popularPois track by $index">
+            {{poi[0].name}}
+            <br>
+            <a style="width: auto;height:300;" ng-href="#!poi/{{poi[0].name}}">
+                <img ng-src="{{poi[0].picture}}" style="width: auto;height:300;">
+            </a>
+        </div>
+    </div>
+
+    <div ng-show="getStatus()" id="lastSave">
+        <h2>Last Save points</h2><br>
+        <div ng-repeat="poi in lastPois track by $index">
             {{poi[0].name}}
             <br>
             <a style="width: auto;height:300;" ng-href="#!poi/{{poi[0].name}}">

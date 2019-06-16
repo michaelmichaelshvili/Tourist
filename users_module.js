@@ -97,7 +97,7 @@ async function getUserQuestionAnswer(username) {
 }
 
 async function restore_password(info) {
-    var user_exists = existsUser(info.username);
+    var user_exists = await existsUser(info.username);
     if (user_exists) {
         const qa = await getUserQuestionAnswer(info.username);
         var correctQA = qa.some(item => item.question_id == info.question && item.answer == info.answer);

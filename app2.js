@@ -1,7 +1,7 @@
 // console.log("im here app2");
 let app = angular.module('myApp', ["ngRoute","dndLists"]);
 app
-    .run(function ($rootScope, sharedProperties, $location,$http) {
+    .run(function ($window, $rootScope, sharedProperties, $location,$http) {
         $rootScope.LocalFavorites = [];//maybe make more private
         $rootScope.LocalFavoritesIncludes = function(poi_name){
             return $rootScope.LocalFavorites.map(x=>x.name).includes(poi_name);
@@ -12,12 +12,13 @@ app
                 $rootScope.LocalFavorites = $rootScope.LocalFavorites.filter(x => x.name != poi.name);
             else{
                 $rootScope.LocalFavorites.push(poi);
-                $rootScope.$broadcast("added_favorites");
+                // $rootScope.$broadcast("added_favorites");
             }
         }
 
         $rootScope.logout = function () {
             sharedProperties.logout();
+            $window.localStorage.removeItem('token');
             $location.path("/");
         };
         $rootScope.logUser = function (username) {
@@ -46,7 +47,7 @@ app
                 }
                 else {
                     //unlogged users
-                    if ([false,"pages/poi/","pages/explore/","pages/favorites/"].reduce(reducer))
+                    if ([false,"pages/favorites/"].reduce(reducer))
                     {
                         alert("you need to login");
                         $location.path("/login");
@@ -134,42 +135,9 @@ app
         };
     })
     .controller("mainController", function ($rootScope, $scope, $http, $timeout) {
-        $rootScope.$on("added_favorites",function(){
-            $scope.num_of_favorite = $rootScope.LocalFavorites.length;
-            $timeout(function(){$scope.num_of_favorite = undefined;},3000);
-        })
-    }).service('ModalService', function() {
-            var modals = []; // array of modals on the page
-            var service = {};
-    
-            service.Add = Add;
-            service.Remove = Remove;
-            service.Open = Open;
-            service.Close = Close;
-    
-            return service;
-    
-            function Add(modal) {
-                // add modal to array of active modals
-                modals.push(modal);
-            }
-            
-            function Remove(id) {
-                // remove modal from array of active modals
-                var modalToRemove = _.findWhere(modals, { id: id });
-                modals = _.without(modals, modalToRemove);
-            }
-    
-            function Open(id) {
-                // open modal specified by id
-                var modal = _.findWhere(modals, { id: id });
-                modal.open();
-            }
-    
-            function Close(id) {
-                // close modal specified by id
-                var modal = _.findWhere(modals, { id: id });
-                modal.close();
-            }
-        }
+        // $rootScope.$on("added_favorites",function(){
+        //     $scope.num_of_favorite = $rootScope.LocalFavorites.length;
+        //     $timeout(function(){$scope.num_of_favorite = undefined;},3000);
+        // })
+    }
     );

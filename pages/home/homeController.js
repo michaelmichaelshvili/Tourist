@@ -22,6 +22,16 @@ angular.module("myApp")
             }, function erro(response){
                 console.log("error");
             }); 
+            $http({
+                headers: { "x-auth-token": $window.localStorage.getItem('token')},  
+                method: "GET",
+                url: "http://localhost:3000/private/getLastSavePOI"
+            }).then(function success(response){
+                $rootScope.lastPois = response.data;
+                // console.log(response.data);
+            }, function erro(response){
+                console.log("error");
+            }); 
         }
 
 
