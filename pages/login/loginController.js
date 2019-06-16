@@ -1,7 +1,7 @@
 angular.module("myApp")
     .controller('loginController', function ($window, $scope, $http, $location,sharedProperties,$rootScope) {
-        $scope.username = 'er';
-        $scope.password = 'er';
+        $scope.username = 'dsadas';
+        $scope.password = 'asdasd';
 
         $scope.forgot_password = function(){
             // console.log("check check 1 2");
@@ -11,6 +11,7 @@ angular.module("myApp")
                 $location.url(`/forgotPassword`);
 
         }
+
 
         $scope.submit = function () {
             $http({
@@ -30,6 +31,7 @@ angular.module("myApp")
 
                     $http.get("http://localhost:3000/private/getFavoritePOI",{headers:{"x-auth-token":response.data}})
                     .then(function(response){$rootScope.LocalFavorites=response.data;});
+                    
                     // .then(function(response){$rootScope.LocalFavorites=response.data.map(x=>x.name);});
                     //broadcast login
                     // var token = response.data;

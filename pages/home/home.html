@@ -1,24 +1,24 @@
-<div controller="homeController">
+<div ng-controller="homeController">
 
-    <div ng-show="getStatus()" id="popularPOIs">
+    <div ng-show="getStatus()" id="popularPois">
         <h2>Popular points</h2><br>
-        <div ng-repeat="poi in popularPois">
-            {{poi.name}}
+        <div ng-repeat="poi in popularPois track by $index">
+            {{poi[0].name}}
             <br>
-            <a style="width: auto;height:300;" ng-href="#!poi/{{poi.name}}">
-                <img ng-src="{{poi.picture}}" style="width: auto;height:300;">
+            <a style="width: auto;height:300;" ng-href="#!poi/{{poi[0].name}}">
+                <img ng-src="{{poi[0].picture}}" style="width: auto;height:300;">
             </a>
         </div>
     </div>
 
 
-    <div id="explore" ng- class="container"
+    <div ng-hide="getStatus()" id="explore" ng- class="container"
         style=" display: flex; flex-direction: row; width: 100%; background-color: white; justify-items: center; justify-content: space-between;">
-        <div ng-repeat="poi in explorePois">
+        <div ng-repeat="poi in explorePois track by $index">
             {{poi.name}}
             <br>
-            <a style="width: auto;height:300;" ng-href="#!poi/{{poi.name}}">
-                <img ng-src="{{poi.picture}}" style="width: auto;height:300;">
+            <a style="width: auto;height:100;" ng-href="#!poi/{{poi.name}}">
+                <img ng-src="{{poi.picture}}" style="width: auto;height:100;">
             </a>
         </div>
     </div>
