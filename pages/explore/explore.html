@@ -18,12 +18,13 @@
         <h1>{{key}}</h1>
         <div ng-repeat="poi in value">
             {{poi.name}}<br>
+            <!-- {{poi}} -->
             <div style="width: 300;height:300;">
                 <div style="width: 35;height:35;position:absolute;"
-                    ng-style="(LocalFavorites.includes(poi.name))?{background:'blue'}:{background:'white'}"
-                    ng-click="favorite_select(poi.name)" class="circle bookmark"></div>
+                    ng-style="(LocalFavoritesIncludes(poi.name))?{background:'blue'}:{background:'white'}"
+                    ng-click="favorite_select(poi)" class="circle bookmark"></div>
                 <a style="width: 300;height:300;" ng-href="#!poi/{{poi.name}}">
-                    <img src="{{poi.picture}}" style="width: 300;height:300;">
+                    <img ng-src="{{poi.picture}}" style="width: 300;height:300;">
                 </a>
             </div>
         </div>

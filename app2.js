@@ -3,12 +3,15 @@ let app = angular.module('myApp', ["ngRoute","dndLists"]);
 app
     .run(function ($rootScope, sharedProperties, $location,$http) {
         $rootScope.LocalFavorites = [];//maybe make more private
-        $rootScope.favorite_select = function (poi_name) {
+        $rootScope.LocalFavoritesIncludes = function(poi_name){
+            return $rootScope.LocalFavorites.map(x=>x.name).includes(poi_name);
+        }
+        $rootScope.favorite_select = function (poi) {
             //save\unsave localy on client side
-            if ($rootScope.LocalFavorites.includes(poi_name))
-                $rootScope.LocalFavorites = $rootScope.LocalFavorites.filter(x => x != poi_name);
+            if ($rootScope.LocalFavoritesIncludes(poi.name))
+                $rootScope.LocalFavorites = $rootScope.LocalFavorites.filter(x => x.name != poi.name);
             else{
-                $rootScope.LocalFavorites.push(poi_name);
+                $rootScope.LocalFavorites.push(poi);
                 $rootScope.$broadcast("added_favorites");
             }
         }
@@ -31,7 +34,7 @@ app
                 if ($rootScope.getStatus() == true) {
                     //logged users
                     //TODO: add ,"pages/login/" ************************************************************
-                    if ([false, "pages/register/","pages/forgotPassword/"].reduce(reducer)) {
+                    if ([false, "pages/login/", "pages/register/","pages/forgotPassword/"].reduce(reducer)) {
                         alert("you are already logged in");
                         $location.path("/");
                     }
@@ -72,8 +75,8 @@ app
     .config(function ($routeProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'pages/login/login.html',
-                // templateUrl: 'pages/home/home.html',
+                // templateUrl: 'pages/login/login.html',
+                templateUrl: 'pages/home/home.html',
             })
             .when('/poi/:poi_name', {
                 templateUrl: '/pages/poi/poi.html',
@@ -97,7 +100,7 @@ app
                 templateUrl: 'pages/favorites/favorites.html'
             })
             // other
-            .otherwise({ redirectTo: '/' });
+            // .otherwise({ redirectTo: '/' });
     });
 
 angular.module('myApp')

@@ -29,7 +29,8 @@ angular.module("myApp")
                     $rootScope.logUser($scope.username);
 
                     $http.get("http://localhost:3000/private/getFavoritePOI",{headers:{"x-auth-token":response.data}})
-                    .then(function(response){$rootScope.LocalFavorites=response.data.map(x=>x.name);});
+                    .then(function(response){$rootScope.LocalFavorites=response.data;});
+                    // .then(function(response){$rootScope.LocalFavorites=response.data.map(x=>x.name);});
                     //broadcast login
                     // var token = response.data;
                     $location.path('/');// TODO: to comeback to where you came from? through route param

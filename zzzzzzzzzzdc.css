@@ -3,7 +3,7 @@
  * otherwise you can't drop to it once it's empty
  */
  .simpleDemo ul[dnd-list] {
-    min-height: 42px;
+    min-height: 300px;
     padding-left: 0px;
 }
 
@@ -25,7 +25,7 @@
 .simpleDemo ul[dnd-list] .dndPlaceholder {
     background-color: #ddd;
     display: block;
-    min-height: 42px;
+    min-height: 300px;
 }
 
 .simpleDemo ul[dnd-list] li {
@@ -35,7 +35,7 @@
     border-top-left-radius: 4px;
     display: block;
     padding: 10px 15px;
-    height: 45px;
+    height: 300;
     margin-bottom: -1px;
 }
 
