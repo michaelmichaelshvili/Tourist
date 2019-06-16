@@ -21,7 +21,10 @@ angular.module("myApp")
             show($rootScope._allPOIs.filter(poi => poi.name.toLowerCase().includes(($scope.entry ? $scope.entry : "").toLowerCase())));
         }
 
-        
+        $scope.showSorted = function () {
+            show($rootScope._allPOIs.filter(poi => poi.name.toLowerCase().includes(($scope.entry ? $scope.entry : "").toLowerCase()))
+                .sort(function(a,b){return b.rate-a.rate;}));
+        }
 
 
         function show(data,categories) {
