@@ -99,6 +99,9 @@ app
             .when('/favorites', {
                 templateUrl: 'pages/favorites/favorites.html'
             })
+            .when('/about', {
+                templateUrl: 'pages/about/about.html'
+            })
             // other
             // .otherwise({ redirectTo: '/' });
     });
