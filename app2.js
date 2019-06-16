@@ -104,9 +104,7 @@ app
             })
             // other
             // .otherwise({ redirectTo: '/' });
-    });
-
-angular.module('myApp')
+    })
     .service('sharedProperties', function () {
         var username = undefined;
         var status = false;
@@ -128,12 +126,44 @@ angular.module('myApp')
             }
 
         };
-    });
-
-angular.module("myApp")
+    })
     .controller("mainController", function ($rootScope, $scope, $http, $timeout) {
         $rootScope.$on("added_favorites",function(){
             $scope.num_of_favorite = $rootScope.LocalFavorites.length;
             $timeout(function(){$scope.num_of_favorite = undefined;},3000);
         })
-    });
+    }).service('ModalService', function() {
+            var modals = []; // array of modals on the page
+            var service = {};
+    
+            service.Add = Add;
+            service.Remove = Remove;
+            service.Open = Open;
+            service.Close = Close;
+    
+            return service;
+    
+            function Add(modal) {
+                // add modal to array of active modals
+                modals.push(modal);
+            }
+            
+            function Remove(id) {
+                // remove modal from array of active modals
+                var modalToRemove = _.findWhere(modals, { id: id });
+                modals = _.without(modals, modalToRemove);
+            }
+    
+            function Open(id) {
+                // open modal specified by id
+                var modal = _.findWhere(modals, { id: id });
+                modal.open();
+            }
+    
+            function Close(id) {
+                // close modal specified by id
+                var modal = _.findWhere(modals, { id: id });
+                modal.close();
+            }
+        }
+    );

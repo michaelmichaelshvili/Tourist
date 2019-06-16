@@ -50,22 +50,26 @@
                 <input type="text" placeholder="Enter your city" ng-model="city" name="city" required ng-pattern="/^[a-zA-Z]*$/"><br>
                 <span ng-show="form.city.$error.pattern && form.city.$dirty">city contain only letter <br></span>
             </div>
+            
+            <div>
 
-            <label for="register_categories">categories</label>
-            <!-- <select id="categories" multiple="multiple" class="MultiSelect" ng-model="answers" ng-options="ctg for ctg in _categories" ng-init="$last && doSomething()" required></select> -->
-            <select id="register_categories" multiple="multiple" class="MultiSelect" ng-model="answers"
+                <label for="register_categories">categories</label>
+                <!-- <select id="categories" multiple="multiple" class="MultiSelect" ng-model="answers" ng-options="ctg for ctg in _categories" ng-init="$last && doSomething()" required></select> -->
+                <select id="register_categories" multiple="multiple" class="MultiSelect" ng-model="answers"
                 ng-required="required">
                 <option name="category" value="{{ctg}}" ng-repeat="ctg in _categories" ng-init="$last && doSomething()">
                     {{ctg}}</option>
-            </select><br>
+                </select><br>
+            </div>
             <label for="question_answer_restore">Questions and answers for restore</label>
             <div id="question1">
-                <select ng-required="required">
+                <select ng-required="required" value="">
+                    <option disabled selected value> -- select an question -- </option>
                     <option value="{{ques.name}}" ng-repeat="ques in possibleQuestion">{{ques.name}}</option>
                     <input type="text" placeholder="your answer">
                 </select>
             </div>
-            <button ng-click="addField()">Add question</button>
+            <button ng-click="addField($event)">Add question</button>
             <br>
 
             <button ng-disabled="form.$invalid" type="submit">Register</button>

@@ -5,15 +5,15 @@ var xml2json = new XMLtoJSON();
 xml2json.fromFile("countries.xml", function (json) {
     jsonContries = json;
 });
-var questions=[
+var questions = [
     { qid: 1, name: "who are you?" },
     { qid: 2, name: "what's your nickname?" },
     { qid: 3, name: "What's your dream job?" }
 ];
-var questionNum=1;
+var questionNum = 1;
 
 angular.module("myApp")
-    .controller("registerController", function ($scope, $http,$timeout, $location) {
+    .controller("registerController", function ($scope, $http, $timeout, $location, $compile) {
         $scope.answers = undefined;
         // $scope._categories = undefined;
 
@@ -22,8 +22,8 @@ angular.module("myApp")
                 var myDrop = new drop({ selector: '.MultiSelect' });
             }, 0);
         }
-        
-        $scope.submit = function(){
+
+        $scope.submit = function () {
             document.getElementById("categories");
             sopt = [];
             for (i of document.getElementById("register_categories").options)
@@ -36,16 +36,19 @@ angular.module("myApp")
         }
 
         $scope.possibleQuestion = questions;
-        $scope.possibleQuestion1 = questions;
 
-        $scope.addField = function () {
-            document.getElementById(`question${questionNum++}`).insertAdjacentHTML('afterend',`<div id=question${questionNum}><select ng-required="required">
-            <option  value="{{ques.name}}" ng-repeat="ques in possibleQuestion">{{ques.name}}</option>
-            <input  type="text" placeholder="your answer">
-        </select></div>`);
-            // $("<option name=\"question\" value=\"{{ques.name}}\" ng-repeat=\"ques in possibleQuestion\">{{ques.name}}</option><input name=\"answer\" type=\"text\" placeholder=\"your answer\">").insertAfter(document.getElementById("questions")); //add input box
-            // ("<span>Hello world!</span>").insertAfter(document.getElementById("r"));
-
+        $scope.addField = function ($event) {
+            var Element = document.getElementById(`question${questionNum++}`);
+            // var newElement = angular.element(`<div id="question${questionNum}"></div>`);
+            var newElement = angular.element(`<div id="question${questionNum}"><select ng-required="required">
+                <option disabled selected value> -- select a question -- </option>
+                <option value="{{ques.name}}" ng-repeat="ques in possibleQuestion">{{ques.name}}</option>
+                <input  type="text" placeholder="your answer">
+                </select></div>`);
+            $compile(newElement.contents())($scope);
+            Element.parentNode.insertBefore(newElement[0], Element.nextSibling);
+            // Element.append(newElement);
+            $event.preventDefault();
         }
         // $http({
         //     method: "GET",
