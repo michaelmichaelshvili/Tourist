@@ -15,6 +15,8 @@ var questionNum = 1;
 angular.module("myApp")
     .controller("registerController", function ($scope, $http, $timeout, $location, $compile) {
         $scope.answers = undefined;
+        $scope.q_answers = [];
+
         // $scope._categories = undefined;
 
         $scope.doSomething = function () {
@@ -33,7 +35,7 @@ angular.module("myApp")
                 alert("You must choose at least 2 categories");
                 return;
             }
-            console.log(sopt);
+            // console.log(sopt);
             var question = document.getElementsByTagName("select")
             var answers = document.getElementsByName("answer");
             var qas = []
@@ -73,7 +75,17 @@ angular.module("myApp")
                                 categories: sopt,
                                 QAs:qas
                             };
-            console.log(register_json);
+            // console.log(register_json);
+
+            $http({
+                method: "POST",
+                url: 'http://localhost:3000/Register',
+                data: register_json
+            }).then(function success(response){
+                console.log(response.data);
+            }, function erro(response){
+                console.log("error");
+            }); 
         }
 
         $scope.possibleQuestion = questions;

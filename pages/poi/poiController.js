@@ -2,7 +2,7 @@ var map;
 var geocoder;
 
 angular.module("myApp")
-        .controller('poiController', function ($scope, $routeParams, $http) {
+        .controller('poiController', function ($scope, $routeParams, $http, $rootScope, $window) {
                 console.log($routeParams.poi_name);
                 $http({
                         method: "GET",
@@ -16,6 +16,11 @@ angular.module("myApp")
                 });
 
                 $scope.openModal = function () {
+                        if (!$rootScope.getStatus()) {
+                                alert("you need to register to review");
+                                //maybe conect to login
+                                return;
+                        }
                         document.getElementById("About").showModal();
                         var span = document.getElementsByClassName("close")[0];
                         span.onclick = function () {
@@ -24,18 +29,27 @@ angular.module("myApp")
                 }
                 $scope.sendRate = function () {
                         var checked = document.querySelectorAll('input:checked');
-                        if(checked.length==0)
-                        {
+                        if (checked.length == 0) {
                                 alert("To submit your rate you must give a rating between 1-5. OR you can exit witout ratinf");
                         }
-                        else{
-                                $scope.comment = document.getElementById('textarea').value.trim();   
+                        else {
+
+                                $scope.comment = document.getElementById('textarea').value.trim();
                                 $scope.rateStar = parseInt(checked[0].value);
+                                $http({
+                                        method: "POST",
+                                        url: "http://localhost:3000/private/RankPOI",
+                                        data: { poi_name: $routeParams.poi_name, rate: $scope.rateStar, review_content: $scope.comment },
+                                        headers: { "x-auth-token": $window.localStorage.getItem('token')}
+                                }).then(function success(response) {
+                                }, function erro(response) {
+                                        alert(response.data);
+                                });
                                 $scope.closeModal();
                         }
 
                 }
-                $scope.closeModal = function(){
+                $scope.closeModal = function () {
                         document.getElementById("About").close();
                 }
         })

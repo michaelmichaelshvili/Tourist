@@ -15,6 +15,7 @@ app
                 $rootScope.$broadcast("added_favorites");
             }
         }
+
         $rootScope.logout = function () {
             sharedProperties.logout();
             $location.path("/");
@@ -28,15 +29,19 @@ app
         $rootScope.getStatus = function () {
             return sharedProperties.getStatus();
         };
+
+        $rootScope.$on("$routeChangeError", function (event, next, current) {
+            console.log("errrr");
+        });
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
             const reducer = (ac, cv) => ac || next.templateUrl.startsWith(cv);
             if (next.templateUrl) {
                 if ($rootScope.getStatus() == true) {
                     //logged users
-                    //TODO: add ,"pages/login/" ************************************************************
                     if ([false, "pages/login/", "pages/register/","pages/forgotPassword/"].reduce(reducer)) {
                         alert("you are already logged in");
                         $location.path("/");
+                        event.preventDefault();
                     }
                 }
                 else {
@@ -45,6 +50,7 @@ app
                     {
                         alert("you need to login");
                         $location.path("/login");
+                        event.preventDefault();
                         // $location.path("/login");
                     }
                 }
