@@ -13,7 +13,7 @@ async function getPOIDetail(info) {
 
 
 async function getRandomPOI(info) {
-    var minimalRank = Math.min(info.minimalRank||5 ,3.5);
+    var minimalRank = Math.min(info.minimalRank||5 ,0);
     var number_of_elements = 3;
     const poi = await DButilsAzure.execQuery(`SELECT TOP ${number_of_elements} * FROM POI_Table WHERE rate >= ${minimalRank} ORDER BY newid()`);
     return poi;

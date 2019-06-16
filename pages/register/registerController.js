@@ -1,12 +1,16 @@
 
 
-
 var jsonContries;
 var xml2json = new XMLtoJSON();
 xml2json.fromFile("countries.xml", function (json) {
     jsonContries = json;
 });
-
+var questions=[
+    { qid: 1, name: "who are you?" },
+    { qid: 2, name: "what's your nickname?" },
+    { qid: 3, name: "What's your dream job?" }
+];
+var questionNum=1;
 
 angular.module("myApp")
     .controller("registerController", function ($scope, $http,$timeout, $location) {
@@ -31,6 +35,18 @@ angular.module("myApp")
             //TODO: add post request with bdikot
         }
 
+        $scope.possibleQuestion = questions;
+        $scope.possibleQuestion1 = questions;
+
+        $scope.addField = function () {
+            document.getElementById(`question${questionNum++}`).insertAdjacentHTML('afterend',`<div id=question${questionNum}><select ng-required="required">
+            <option  value="{{ques.name}}" ng-repeat="ques in possibleQuestion">{{ques.name}}</option>
+            <input  type="text" placeholder="your answer">
+        </select></div>`);
+            // $("<option name=\"question\" value=\"{{ques.name}}\" ng-repeat=\"ques in possibleQuestion\">{{ques.name}}</option><input name=\"answer\" type=\"text\" placeholder=\"your answer\">").insertAfter(document.getElementById("questions")); //add input box
+            // ("<span>Hello world!</span>").insertAfter(document.getElementById("r"));
+
+        }
         // $http({
         //     method: "GET",
         //     url: "http://localhost:3000/getAllCategories"
