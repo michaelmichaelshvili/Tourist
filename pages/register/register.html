@@ -12,6 +12,7 @@
                 <span ng-show="form.username.$error.maxlength && form.username.$dirty">Maximum length is 8<br> </span>
                 <span ng-show="form.username.$error.pattern && form.username.$dirty">username contain only letter <br></span>
             </div>
+
             <div>
                 <label for="password">Password</label>
                 <input type="text" name="password" ng-model="password" required ng-minlength="5" ng-maxlength="10" placeholder="Enter password" ng-pattern="/^[a-zA-Z0-9]*$/">
@@ -61,12 +62,13 @@
                     {{ctg}}</option>
                 </select><br>
             </div>
+
             <label for="question_answer_restore">Questions and answers for restore</label>
-            <div id="question1">
+            <div id="question1" class="questions">
                 <select ng-required="required" value="">
                     <option disabled selected value> -- select an question -- </option>
-                    <option value="{{ques.name}}" ng-repeat="ques in possibleQuestion">{{ques.name}}</option>
-                    <input type="text" placeholder="your answer">
+                    <option name="quesOption" value="{{ques.name}}" ng-repeat="ques in possibleQuestion">{{ques.name}}</option>
+                    <input name="answer" type="text" placeholder="your answer">
                 </select>
             </div>
             <button ng-click="addField($event)">Add question</button>

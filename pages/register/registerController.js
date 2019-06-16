@@ -29,10 +29,51 @@ angular.module("myApp")
             for (i of document.getElementById("register_categories").options)
                 if (i && i.selected == true)
                     sopt.push(i.value);
-            //at least 2
+            if(sopt.length < 2){
+                alert("You must choose at least 2 categories");
+                return;
+            }
             console.log(sopt);
-            $location.path("/");
+            var question = document.getElementsByTagName("select")
+            var answers = document.getElementsByName("answer");
+            var qas = []
+            for(var i=0; i<answers.length;i++)
+            {
+                qas[i]=[]
+                qas[i][0] = questions.filter(obj => {
+                    return obj.name === question[i+2].value
+                  })[0].qid
+                qas[i][1] = answers[i].value
+            }
+            for(var i=0 ; i<qas.length;i++)
+            {
+                for(var j=i+1;j<qas.length;j++)
+                {
+                    if(qas[i][0]==qas[j][0])
+                    {
+                        alert("Please choose different questions");
+                        return;
+                    }
+                }
+            }
+            if(qas.length<2)
+            {
+                alert("You must answer at least 2 questions");
+                return;
+            }
+            // $location.path("/");
             //TODO: add post request with bdikot
+            var register_json = {username: $scope.username,
+                                password:$scope.password,
+                                firstname:$scope.firstname,
+                                lastname:$scope.lastname,
+                                city:$scope.city,
+                                country:$scope._selectedCountry,
+                                email:$scope.email,
+                                categories: sopt,
+                                QAs:qas
+                            };
+            console.log(register_json);
         }
 
         $scope.possibleQuestion = questions;
@@ -40,10 +81,10 @@ angular.module("myApp")
         $scope.addField = function ($event) {
             var Element = document.getElementById(`question${questionNum++}`);
             // var newElement = angular.element(`<div id="question${questionNum}"></div>`);
-            var newElement = angular.element(`<div id="question${questionNum}"><select ng-required="required">
+            var newElement = angular.element(`<div id="question${questionNum}" class="questions"><select ng-required="required">
                 <option disabled selected value> -- select a question -- </option>
-                <option value="{{ques.name}}" ng-repeat="ques in possibleQuestion">{{ques.name}}</option>
-                <input  type="text" placeholder="your answer">
+                <option name="quesOption" value="{{ques.name}}" ng-repeat="ques in possibleQuestion">{{ques.name}}</option>
+                <input name="answer" type="text" placeholder="your answer">
                 </select></div>`);
             $compile(newElement.contents())($scope);
             Element.parentNode.insertBefore(newElement[0], Element.nextSibling);

@@ -1,9 +1,25 @@
-<div id="explore" ng-controller="homeController" class="container" style=" display: flex; flex-direction: row; width: 100%; background-color: white; justify-items: center; justify-content: space-between;">
-    <div ng-repeat="poi in pois">
-        {{poi.name}}
-        <br>
-        <a style="width: auto;height:300;" ng-href="#!poi/{{poi.name}}" >
-            <img ng-src="{{poi.picture}}" style="width: auto;height:300;">
-        </a>
+<div controller="homeController">
+
+    <div ng-show="getStatus()" id="popularPOIs">
+        <h2>Popular points</h2><br>
+        <div ng-repeat="poi in popularPois">
+            {{poi.name}}
+            <br>
+            <a style="width: auto;height:300;" ng-href="#!poi/{{poi.name}}">
+                <img ng-src="{{poi.picture}}" style="width: auto;height:300;">
+            </a>
+        </div>
+    </div>
+
+
+    <div id="explore" ng- class="container"
+        style=" display: flex; flex-direction: row; width: 100%; background-color: white; justify-items: center; justify-content: space-between;">
+        <div ng-repeat="poi in explorePois">
+            {{poi.name}}
+            <br>
+            <a style="width: auto;height:300;" ng-href="#!poi/{{poi.name}}">
+                <img ng-src="{{poi.picture}}" style="width: auto;height:300;">
+            </a>
+        </div>
     </div>
 </div>
