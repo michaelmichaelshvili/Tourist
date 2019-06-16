@@ -2,32 +2,65 @@
     <!-- aa{{registerController.jsonContries.Countries.Country[0].Name}} -->
     <!-- {{_selectedCountry}} -->
     <!-- {{registerController.selectedCountryId}} -->
-    <form id="registerForm" class="form-style-8" role="form" ng-submit="submit()">
+    <form name="form" id="registerForm" class="form-style-8" role="form" ng-submit="submit()">
         {{answers}}
         <div>
-            <label for="username">Username</label>
-            <input type="text" placeholder="Enter username" name="username" id="usernameID" required><br>
+            <div>
+                <label for="username">Username</label>
+                <input type="text" placeholder="Enter username" name="username" id="usernameID" ng-model="username" required ng-minlength="3" ng-maxlength="8" ng-pattern="/^[a-zA-Z]*$/">
+                <span ng-show="form.username.$error.minlength && form.username.$dirty">Minimum length is 3 <br></span>
+                <span ng-show="form.username.$error.maxlength && form.username.$dirty">Maximum length is 8<br> </span>
+                <span ng-show="form.username.$error.pattern && form.username.$dirty">username contain only letter <br></span>
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="text" name="password" ng-model="password" required ng-minlength="5" ng-maxlength="10" placeholder="Enter password" ng-pattern="/^[a-zA-Z0-9]*$/">
+                <span ng-show="form.password.$error.minlength && form.password.$dirty">Minimum length is 5 <br></span>
+                <span ng-show="form.password.$error.maxlength && form.password.$dirty">Maximum length is 10 <br></span>
+                <span ng-show="form.password.$error.pattern && form.password.$dirty">password contain only letters or digits
+                    <br></span>
+            </div>
+            <div>
+                <label for="firstname">First name</label>
+                <input type="text" placeholder="Enter your first name" ng-model="firstname" name="firstname" required ng-pattern="/^[a-zA-Z]*$/"><br>
+                <span ng-show="form.firstname.$error.pattern && form.firstname.$dirty">firstname contain only letter <br></span>
+            </div>
 
-            <label for="firstname">First name</label>
-            <input type="text" placeholder="Enter your first name" name="firstname" required><br>
+            <div>    
+                <label for="lastname">Last name</label>
+                <input type="text" placeholder="Enter your last name" ng-model="lastname" name="lastname" required ng-pattern="/^[a-zA-Z]*$/"><br>
+                <span ng-show="form.lastname.$error.pattern && form.lastname.$dirty">lastname contain only letter <br></span>
+            </div>
 
-            <label for="lastname">Last name</label>
-            <input type="text" placeholder="Enter your last name" name="lastname" required><br>
+            <div>
+                <label for="email">Email</label>
+                <input type="email" placeholder="name@domain.com" ng-model="email" name="email" required>
+                <span ng-show="form.email.$dirty && form.email.$error.email" class="help-block">Invalid email</span>
+            </div>
+            
+            <div>   
+                <label for="country">Country</label>
+                <select  id="country" name="country" ng-model="_selectedCountry" ng-options="c.Name['#text'] as c.Name['#text'] for c in _jsonContries.Countries.Country" required>
+                    <option value="" disabled selected>Select a Country</option>
+                </select><br>
+            </div>
 
-            <label for="email">Email</label>
-            <input type="text" placeholder="name@domain.com" name="email" required><br>
+            <div>
+                <label for="firstname">City</label>
+                <input type="text" placeholder="Enter your city" ng-model="city" name="city" required ng-pattern="/^[a-zA-Z]*$/"><br>
+                <span ng-show="form.city.$error.pattern && form.city.$dirty">city contain only letter <br></span>
+            </div>
+            
+            <div>
 
-            <!-- <label for="country">country</label>
-            <select id="country" name="country" ng-model="_selectedCountry" ng-options="c.Name['#text'] as c.Name['#text'] for c in _jsonContries.Countries.Country" required>
-            </select><br> -->
-
-            <label for="register_categories">categories</label>
-            <!-- <select id="categories" multiple="multiple" class="MultiSelect" ng-model="answers" ng-options="ctg for ctg in _categories" ng-init="$last && doSomething()" required></select> -->
-            <select id="register_categories" multiple="multiple" class="MultiSelect" ng-model="answers"
+                <label for="register_categories">categories</label>
+                <!-- <select id="categories" multiple="multiple" class="MultiSelect" ng-model="answers" ng-options="ctg for ctg in _categories" ng-init="$last && doSomething()" required></select> -->
+                <select id="register_categories" multiple="multiple" class="MultiSelect" ng-model="answers"
                 ng-required="required">
                 <option name="category" value="{{ctg}}" ng-repeat="ctg in _categories" ng-init="$last && doSomething()">
                     {{ctg}}</option>
-            </select><br>
+                </select><br>
+            </div>
             <label for="question_answer_restore">Questions and answers for restore</label>
             <div id="question1">
                 <select ng-required="required" value="">
@@ -39,11 +72,7 @@
             <button ng-click="addField($event)">Add question</button>
             <br>
 
-
-            <label for="password">Password</label>
-            <input type="password" placeholder="Enter password" name="password" id="passwordID" required><br>
-
-            <button ng-disabled="loginForm.$invalid" type="submit">Register</button>
+            <button ng-disabled="form.$invalid" type="submit">Register</button>
             <button type="reset">Reset</button>
         </div>
     </form>

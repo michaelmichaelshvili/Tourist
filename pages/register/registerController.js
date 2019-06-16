@@ -47,7 +47,6 @@ angular.module("myApp")
                 </select></div>`);
             $compile(newElement.contents())($scope);
             Element.parentNode.insertBefore(newElement[0], Element.nextSibling);
-
             // Element.append(newElement);
             $event.preventDefault();
         }

@@ -1,5 +1,6 @@
 var map;
 var geocoder;
+
 angular.module("myApp")
         .controller('poiController', function ($scope, $routeParams, $http) {
                 console.log($routeParams.poi_name);
@@ -14,8 +15,32 @@ angular.module("myApp")
                         console.log("error");
                 });
 
+                $scope.openModal = function () {
+                        document.getElementById("About").showModal();
+                        var span = document.getElementsByClassName("close")[0];
+                        span.onclick = function () {
+                                document.getElementById("About").close();
+                        }
+                }
+                $scope.sendRate = function () {
+                        var checked = document.querySelectorAll('input:checked');
+                        if(checked.length==0)
+                        {
+                                alert("To submit your rate you must give a rating between 1-5. OR you can exit witout ratinf");
+                        }
+                        else{
+                                $scope.comment = document.getElementById('textarea').value.trim();   
+                                $scope.rateStar = parseInt(checked[0].value);
+                                $scope.closeModal();
+                        }
 
-        });
+                }
+                $scope.closeModal = function(){
+                        document.getElementById("About").close();
+                }
+        })
+
+
         // function loadMap() {
         // var pune = { lat: 18.5204, lng: 73.8567 };
         // map = new google.maps.Map(document.getElementById('map'), {
