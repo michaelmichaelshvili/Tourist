@@ -1,34 +1,24 @@
-<html>
+<!DOCTYPE html>
+<html ng-app="" ng-controller="myCtrl">
 
-  <head>
-      <link href="zzzzzzzzzzdc.css" rel="stylesheet" />
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.8/angular.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-drag-and-drop-lists/2.1.0/angular-drag-and-drop-lists.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="zzzzzzzdsdv.js"></script>
-</head>
-
-<body ng-app="app" ng-controller="ctrl">
-    <div class="simpleDemo row">
-      <div class="col-md-8">
-        <div class="row">
-          <div ng-repeat="(listName, list) in models.lists" class="col-md-6">
-            <div class="panel panel-info">
-              <div class="panel-body">
-                <ul dnd-list="list" class="ng-scope">
-                  <li ng-repeat="item in list" dnd-draggable="item" dnd-moved="list.splice($index, 1)" dnd-effect-allowed="move" dnd-selected="models.selected = item" ng-class="{'selected': models.selected === item}" draggable="true">
-                    <a class="close" ng-click="removeFromList(list, $index)">×</a>
-                    <edit-in-place value="item.label" style="width: 30;height:30;">
-                    </edit-in-place>
-                  </li>
-
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+<body>
+  <button ng-click="AppendHtml()">
+    Append
+  </button>
+  <div id="calendarBox">
+  </div>
+  <script>
+    function myCtrl($scope,$compile) {
+      $scope.AppendHtml = function () {
+        var divElement = angular.element( document.querySelector( '#calendarBox' ) );
+        var htmlElement = angular.element('<a href="niceonecode.com">{{data}}<a><br>');
+        divElement.append(htmlElement);
+        $compile(divElement)($scope);
+      }
+      $scope.data="dataaaa";
+    }
+  </script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
 </body>
 
 </html>

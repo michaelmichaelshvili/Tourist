@@ -101,9 +101,7 @@ app
             })
             // other
             // .otherwise({ redirectTo: '/' });
-    });
-
-angular.module('myApp')
+    })
     .service('sharedProperties', function () {
         var username = undefined;
         var status = false;
@@ -125,9 +123,7 @@ angular.module('myApp')
             }
 
         };
-    });
-
-angular.module("myApp")
+    })
     .controller("mainController", function ($rootScope, $scope, $http, $timeout) {
         $rootScope.$on("added_favorites",function(){
             $scope.num_of_favorite = $rootScope.LocalFavorites.length;

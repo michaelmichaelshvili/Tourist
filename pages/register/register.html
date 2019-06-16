@@ -30,12 +30,13 @@
             </select><br>
             <label for="question_answer_restore">Questions and answers for restore</label>
             <div id="question1">
-                <select ng-required="required">
-                    <option  value="{{ques.name}}" ng-repeat="ques in possibleQuestion">{{ques.name}}</option>
-                    <input  type="text" placeholder="your answer">
+                <select ng-required="required" value="">
+                    <option disabled selected value> -- select an question -- </option>
+                    <option value="{{ques.name}}" ng-repeat="ques in possibleQuestion">{{ques.name}}</option>
+                    <input type="text" placeholder="your answer">
                 </select>
             </div>
-            <button ng-click="addField()">Add question</button>
+            <button ng-click="addField($event)">Add question</button>
             <br>
 
 
