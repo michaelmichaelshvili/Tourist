@@ -69,10 +69,10 @@ app.post("/Register",[
 
 //Login.  JSON({Username, Password}).  Token
 app.post("/login", (req, res) => {
-    console.log("enter");
+    // console.log("enter");
     users_module.login(req.body)
         .then(function(result){
-            console.log("then");
+            // console.log("then");
             if (result) {
                 var payload = { username: req.body.username };
                 const token = jwt.sign(payload, secret, options);

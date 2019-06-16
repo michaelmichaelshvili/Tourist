@@ -10,9 +10,10 @@ var questions=[
     { qid: 2, name: "what's your nickname?" },
     { qid: 3, name: "What's your dream job?" }
 ];
+var questionNum=1;
 
 angular.module("myApp")
-    .controller("registerController", function ($scope, $http,$timeout) {
+    .controller("registerController", function ($scope, $http,$timeout, $location) {
         $scope.answers = undefined;
         // $scope._categories = undefined;
 
@@ -30,12 +31,18 @@ angular.module("myApp")
                     sopt.push(i.value);
             //at least 2
             console.log(sopt);
+            $location.path("/");
+            //TODO: add post request with bdikot
         }
 
         $scope.possibleQuestion = questions;
+        $scope.possibleQuestion1 = questions;
 
         $scope.addField = function () {
-            document.getElementById("r").after('<label for="register_categories">categories</label>');
+            document.getElementById(`question${questionNum++}`).insertAdjacentHTML('afterend',`<div id=question${questionNum}><select ng-required="required">
+            <option  value="{{ques.name}}" ng-repeat="ques in possibleQuestion">{{ques.name}}</option>
+            <input  type="text" placeholder="your answer">
+        </select></div>`);
             // $("<option name=\"question\" value=\"{{ques.name}}\" ng-repeat=\"ques in possibleQuestion\">{{ques.name}}</option><input name=\"answer\" type=\"text\" placeholder=\"your answer\">").insertAfter(document.getElementById("questions")); //add input box
             // ("<span>Hello world!</span>").insertAfter(document.getElementById("r"));
 
