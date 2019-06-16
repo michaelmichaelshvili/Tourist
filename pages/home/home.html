@@ -1,1 +1,9 @@
-home
+<div id="explore" ng-controller="homeController" class="container" style=" display: flex; flex-direction: row; width: 100%; background-color: white; justify-items: center; justify-content: space-between;">
+    <div ng-repeat="poi in pois">
+        {{poi.name}}
+        <br>
+        <a style="width: auto;height:300;" ng-href="#!poi/{{poi.name}}" >
+            <img src="{{poi.picture}}" style="width: auto;height:300;">
+        </a>
+    </div>
+</div>

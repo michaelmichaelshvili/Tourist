@@ -2,7 +2,7 @@
     <!-- aa{{registerController.jsonContries.Countries.Country[0].Name}} -->
     <!-- {{_selectedCountry}} -->
     <!-- {{registerController.selectedCountryId}} -->
-    <form id="registerForm" class="form-style-8" role="form" ng-submit="submit()" >
+    <form id="registerForm" class="form-style-8" role="form" ng-submit="submit()">
         {{answers}}
         <div>
             <label for="username">Username</label>
@@ -23,9 +23,22 @@
 
             <label for="register_categories">categories</label>
             <!-- <select id="categories" multiple="multiple" class="MultiSelect" ng-model="answers" ng-options="ctg for ctg in _categories" ng-init="$last && doSomething()" required></select> -->
-            <select id="register_categories" multiple="multiple" class="MultiSelect" ng-model="answers" ng-required="required">
-                <option name="category" value="{{ctg}}" ng-repeat="ctg in _categories" ng-init="$last && doSomething()" >{{ctg}}</option>
+            <select id="register_categories" multiple="multiple" class="MultiSelect" ng-model="answers"
+                ng-required="required">
+                <option name="category" value="{{ctg}}" ng-repeat="ctg in _categories" ng-init="$last && doSomething()">
+                    {{ctg}}</option>
             </select><br>
+            <label for="question_answer_restore">Questions and answers for restore</label>
+            <div id="r">
+                <select name="questions" id="w" ng-required="required">
+                    <option name="question" value="{{ques.name}}" ng-repeat="ques in possibleQuestion">{{ques.name}}
+                    </option>
+                    <input name="answer" type="text" placeholder="your answer">
+                </select>
+            </div>
+            <button ng-click="addField()">Add question</button>
+            <br>
+
 
             <label for="password">Password</label>
             <input type="password" placeholder="Enter password" name="password" id="passwordID" required><br>

@@ -1,12 +1,15 @@
 
 
-
 var jsonContries;
 var xml2json = new XMLtoJSON();
 xml2json.fromFile("countries.xml", function (json) {
     jsonContries = json;
 });
-
+var questions=[
+    { qid: 1, name: "who are you?" },
+    { qid: 2, name: "what's your nickname?" },
+    { qid: 3, name: "What's your dream job?" }
+];
 
 angular.module("myApp")
     .controller("registerController", function ($scope, $http,$timeout) {
@@ -29,6 +32,14 @@ angular.module("myApp")
             console.log(sopt);
         }
 
+        $scope.possibleQuestion = questions;
+
+        $scope.addField = function () {
+            document.getElementById("r").after('<label for="register_categories">categories</label>');
+            // $("<option name=\"question\" value=\"{{ques.name}}\" ng-repeat=\"ques in possibleQuestion\">{{ques.name}}</option><input name=\"answer\" type=\"text\" placeholder=\"your answer\">").insertAfter(document.getElementById("questions")); //add input box
+            // ("<span>Hello world!</span>").insertAfter(document.getElementById("r"));
+
+        }
         // $http({
         //     method: "GET",
         //     url: "http://localhost:3000/getAllCategories"
