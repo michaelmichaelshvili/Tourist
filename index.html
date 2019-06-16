@@ -9,13 +9,13 @@
     <link rel="stylesheet" type="text/css" href="pages/poi/poi_list_style.css">
     <link rel="stylesheet" type="text/css" href="pages/poi/poi_style.css">
     <link rel="stylesheet" type="text/css" href="circle.css">
+    <link rel="stylesheet" type="text/css" href="zzzzzzzzzzdc.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="XMLtoJSON.js"></script>
-
-</head>
-
-<body ng-app="myApp">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.8/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-drag-and-drop-lists/2.1.0/angular-drag-and-drop-lists.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="multiselect-master/js/index.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.js"></script>
     <script src="https://code.angularjs.org/1.7.8/angular-route.js"></script>
     <script src="app2.js"></script>
     <script src="/pages/poi/poiController.js"></script>
@@ -23,6 +23,12 @@
     <script src="/pages/register/registerController.js"></script>
     <script src="/pages/forgotPassword/forgotPasswordController.js"></script>
     <script src="/pages/explore/exploreController.js"></script>
+    <script src="/pages/favorites/favoritesController.js"></script>
+</head>
+
+<body ng-app="myApp" ng-controller="mainController">
+
+
     <!-- <script ng-controller="maps" async defer ng-src="{{maps_key}}"></script>
     <script language="JavaScript">
         function getPassword() {
@@ -38,9 +44,6 @@
         }
         </script> -->
 
-
-    <!-- <script src="xml2json.js"></script> -->
-
     hello {{getStatus()?getUsername():"guest"}}
     <div ng-show="!getStatus()">
         please <a ng-href="#!login">login</a> or <a ng-href="#!register">register</a>
@@ -53,8 +56,10 @@
             <img src="Capture.PNG">
         </a>
         <!-- <a ng-href="#!forgotPassword">log</a> -->
-        <!-- <a href="#!poi/Biratenu">POI</a> -->
+        <!-- <a href="  ">POI</a> -->
         <a ng-show="getStatus()" ng-href="#!explore">explore</a>
+        <a ng-show="getStatus()" ng-href="#!favorites">favorites</a>{{num_of_favorite}}
+
     </div>
     <div ng-view></div>
 </body>

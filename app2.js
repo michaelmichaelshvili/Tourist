@@ -1,8 +1,17 @@
 // console.log("im here app2");
-let app = angular.module('myApp', ["ngRoute"]);
+let app = angular.module('myApp', ["ngRoute","dndLists"]);
 app
     .run(function ($rootScope, sharedProperties, $location,$http) {
-        console.log("here")
+        $rootScope.LocalFavorites = [];//maybe make more private
+        $rootScope.favorite_select = function (poi_name) {
+            //save\unsave localy on client side
+            if ($rootScope.LocalFavorites.includes(poi_name))
+                $rootScope.LocalFavorites = $rootScope.LocalFavorites.filter(x => x != poi_name);
+            else{
+                $rootScope.LocalFavorites.push(poi_name);
+                $rootScope.$broadcast("added_favorites");
+            }
+        }
         $rootScope.logout = function () {
             sharedProperties.logout();
             $location.path("/");
@@ -17,17 +26,22 @@ app
             return sharedProperties.getStatus();
         };
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
+            const reducer = (ac, cv) => ac || next.templateUrl.startsWith(cv);
             if (next.templateUrl) {
                 if ($rootScope.getStatus() == true) {
                     //logged users
-                    if (next.templateUrl.startsWith("pages/login/") || next.templateUrl.startsWith("pages/register/") || next.templateUrl.startsWith("pages/forgotPassword/")) {
+                    //TODO: add ,"pages/login/" ************************************************************
+                    if ([false, "pages/register/","pages/forgotPassword/"].reduce(reducer)) {
+                        alert("you are already logged in");
                         $location.path("/");
                     }
                 }
                 else {
                     //unlogged users
-                    if (next.templateUrl.startsWith("pages/poi/") || next.templateUrl.startsWith("pages/explore/")) {
-                        $location.path("/");
+                    if ([false,"pages/poi/","pages/explore/","pages/favorites/"].reduce(reducer))
+                    {
+                        alert("you need to login");
+                        $location.path("/login");
                         // $location.path("/login");
                     }
                 }
@@ -38,7 +52,6 @@ app
             url: "http://localhost:3000/getAllCategories"
         });
         $rootScope.p1.then(function success(response) {
-            console.log(response.data);
             $rootScope._categories = response.data;
         }, function erro(response) {
             console.log("error getAllCategories");
@@ -59,7 +72,8 @@ app
     .config(function ($routeProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'pages/home/home.html',
+                templateUrl: 'pages/login/login.html',
+                // templateUrl: 'pages/home/home.html',
             })
             .when('/poi/:poi_name', {
                 templateUrl: '/pages/poi/poi.html',
@@ -78,6 +92,9 @@ app
             })
             .when('/explore', {
                 templateUrl: 'pages/explore/explore.html'
+            })
+            .when('/favorites', {
+                templateUrl: 'pages/favorites/favorites.html'
             })
             // other
             .otherwise({ redirectTo: '/' });
@@ -108,6 +125,9 @@ angular.module('myApp')
     });
 
 angular.module("myApp")
-    .controller("registerController", function ($scope, $http, $timeout) {
-
+    .controller("mainController", function ($rootScope, $scope, $http, $timeout) {
+        $rootScope.$on("added_favorites",function(){
+            $scope.num_of_favorite = $rootScope.LocalFavorites.length;
+            $timeout(function(){$scope.num_of_favorite = undefined;},3000);
+        })
     });

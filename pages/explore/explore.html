@@ -6,13 +6,22 @@
             <button type="submit">Search</button>
         </form>
     </div>
+    <div id="select categories" class="w3-sidebar" style="width:25%;right:0;">
+        <div ng-repeat="(select_category,enabled) in select_categories">
+            <input type="checkbox" ng-model="select_categories[select_category]"> {{select_category}}
+        </div>
+        <div>
+            <button ng-click="apply_categories()">apply categories</button>
+        </div>
+    </div>
     <div ng-repeat="(key, value) in pois">
         <h1>{{key}}</h1>
-
         <div ng-repeat="poi in value">
             {{poi.name}}<br>
             <div style="width: 300;height:300;">
-                <div style="width: 35;height:35;position:absolute;" onclick="alert(1)" class="circle"></div>
+                <div style="width: 35;height:35;position:absolute;"
+                    ng-style="(LocalFavorites.includes(poi.name))?{background:'blue'}:{background:'white'}"
+                    ng-click="favorite_select(poi.name)" class="circle bookmark"></div>
                 <a style="width: 300;height:300;" ng-href="#!poi/{{poi.name}}">
                     <img src="{{poi.picture}}" style="width: 300;height:300;">
                 </a>

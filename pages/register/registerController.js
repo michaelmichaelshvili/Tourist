@@ -9,7 +9,7 @@ xml2json.fromFile("countries.xml", function (json) {
 
 
 angular.module("myApp")
-    .controller("registerController", function ($scope, $http,$timeout) {
+    .controller("registerController", function ($scope, $http,$timeout, $location) {
         $scope.answers = undefined;
         // $scope._categories = undefined;
 
@@ -27,6 +27,8 @@ angular.module("myApp")
                     sopt.push(i.value);
             //at least 2
             console.log(sopt);
+            $location.path("/");
+            //TODO: add post request with bdikot
         }
 
         // $http({
