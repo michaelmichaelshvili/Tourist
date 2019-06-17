@@ -13,14 +13,11 @@
     <link rel="stylesheet" type="text/css" href="zzzzzzzzzzdc.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="XMLtoJSON.js"></script>
-
-</head>
-
-<body ng-app="myApp">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.8/angular.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-drag-and-drop-lists/2.1.0/angular-drag-and-drop-lists.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/angular-drag-and-drop-lists/2.1.0/angular-drag-and-drop-lists.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="multiselect-master/js/index.js"></script>
     <script src="https://code.angularjs.org/1.7.8/angular-route.js"></script>
@@ -32,10 +29,6 @@
     <script src="/pages/explore/exploreController.js"></script>
     <script src="/pages/favorites/favoritesController.js"></script>
     <script src="/pages/home/homeController.js"></script>
-</head>
-
-<body ng-app="myApp" ng-controller="mainController">
-
 
     <!-- <script ng-controller="maps" async defer ng-src="{{maps_key}}"></script>
     <script language="JavaScript">
@@ -52,28 +45,77 @@
         }
         </script> -->
 
-    hello {{getStatus()?getUsername():"guest"}}
-    <div ng-show="!getStatus()">
-        please <a ng-href="#!login">login</a> or <a ng-href="#!register">register</a>
-    </div>
-    <div ng-show="getStatus()">
-        <a ng-click="logout()">logout</a>
-    </div>
-    <div>
+    <style>
+        .nav-bar-ul {
+            list-style-type: none;
+            margin: 0;
+            margin-bottom: 15px;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .nav-bar-ul>li {
+            float: left;
+        }
+
+        .nav-bar-ul>li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .nav-bar-ul>li a:hover {
+            background-color: #111;
+        }
+
+        .horizontal {
+            display: flex;
+            flex-direction: row
+        }
+
+        .vertical {
+            text-align: right;
+            width:100%;
+        }
+    </style>
+
+</head>
+
+<body ng-app="myApp" ng-controller="mainController" style="margin:15px">
+
+        <div class="horizontal">
+            <a ng-href="#!"><img style="height: 100px" src="Capture.PNG"></a>
+            
+            <div class="vertical">
+                <h4>Hello, {{getStatus()?getUsername():"guest"}}</h4>
         
-    </div>
-    <div class="header">
-        <a ng-href="#!">
-            <img src="Capture.PNG">
-        </a>
-        <!-- <a ng-href="#!forgotPassword">log</a> -->
-        <!-- <a href="#!poi/Biratenu">POI</a> -->
+                <div ng-show="!getStatus()">
+                        Please <a ng-href="#!login">login</a> or <a ng-href="#!register">register</a>
+                </div>
+                <div ng-show="getStatus()">
+                        <a ng-click="logout()">logout</a>
+                </div>
+            </div>
+        </div>
+
+    <ul class="nav-bar-ul">
+        <li><a ng-href="#!explore">Explore</a></li>
+        <li><a ng-href="#!about">About</a></li>
+        <li><a ng-show="getStatus()" ng-href="#!favorites">{{LocalFavorites.length}} Favorites</a></li>
+    </ul>
+
+    <!-- <div class="header">
+
+
         <a ng-href="#!explore">explore</a>
-        <a ng-show="getStatus()" ng-href="#!favorites">favorites {{LocalFavorites.length}} </a> 
+        <a ng-show="getStatus()" ng-href="#!favorites">favorites {{LocalFavorites.length}} </a>
         <a ng-href="#!about">about</a>
         <a ng-click="getAPIKey()">insert API key</a>
 
-    </div>
+    </div> -->
     <div ng-view style="width: 100%"></div>
 </body>
 

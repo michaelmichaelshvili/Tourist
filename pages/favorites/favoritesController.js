@@ -1,6 +1,6 @@
 // var $s;
 app
-    .controller('favoritesController', function ($window,$scope, $routeParams, $http, $rootScope) {
+    .controller('favoritesController', function ($window, $scope, $routeParams, $http, $rootScope) {
         $scope.models = {
             lists: {
                 "pois": $rootScope.LocalFavorites
@@ -8,10 +8,11 @@ app
         };
         $scope.save_favorites_in_server = function(){
             $http({
-                headers: { "x-auth-token": $window.localStorage.getItem('token')}, 
+                // headers: { "x-auth-token": $window.localStorage.getItem('token')}, 
                 method: "POST",
                 url: "http://localhost:3000/private/saveAsFavorites",
-                data: { pois:  $rootScope.LocalFavorites.map(x=>x.name)}
+                data: { pois:  $rootScope.LocalFavorites.map(x=>x.name)},
+                headers: { "x-auth-token": $window.localStorage.getItem('token')}
             }).then(function success(response) {
             }, function erro(response) {
                 $scope._error = response;

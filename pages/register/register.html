@@ -16,9 +16,15 @@
             <div>
                 <label for="password">Password</label>
                 <input type="password" name="password" ng-model="password" required ng-minlength="5" ng-maxlength="10" placeholder="Enter password" ng-pattern="/^[a-zA-Z0-9]*$/">
+<<<<<<< HEAD
+                <span ng-show="form.password.$error.minlength && form.password.$dirty">Minimum length is 5 <br></span>
+                <span ng-show="form.password.$error.maxlength && form.password.$dirty">Maximum length is 10 <br></span>
+                <span ng-show="form.password.$error.pattern && form.password.$dirty">password contain only letters or digits
+=======
                 <span class="error" ng-show="form.password.$error.minlength && form.password.$dirty">Minimum length is 5 <br></span>
                 <span class="error" ng-show="form.password.$error.maxlength && form.password.$dirty">Maximum length is 10 <br></span>
                 <span class="error" ng-show="form.password.$error.pattern && form.password.$dirty">password contain only letters or digits
+>>>>>>> bc57ad8bb54266fef5d6c8267ffd5f0b97c3838a
                     <br></span>
             </div>
             <div>

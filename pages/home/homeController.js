@@ -13,9 +13,9 @@ angular.module("myApp")
         if($rootScope.getStatus())
         {
             $http({
-                headers: { "x-auth-token": $window.localStorage.getItem('token')},  
                 method: "GET",
-                url: "http://localhost:3000/private/getMostPopularPOI"
+                url: "http://localhost:3000/private/getMostPopularPOI",
+                headers: { "x-auth-token": $window.localStorage.getItem('token')}
             }).then(function success(response){
                 $rootScope.popularPois = response.data;
                 // console.log(response.data);
