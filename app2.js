@@ -139,5 +139,12 @@ app
         //     $scope.num_of_favorite = $rootScope.LocalFavorites.length;
         //     $timeout(function(){$scope.num_of_favorite = undefined;},3000);
         // })
+        $scope.getAPIKey = function(){
+            var key = prompt("Please entar api key");
+            if(key!=null)
+            {
+                console.log(key);
+            }
+        }
     }
     );
