@@ -25,7 +25,7 @@ angular.module("myApp")
                 // else if(response.data is error)
                 else {
                     // console.log(response.data);
-                    $window.localStorage.setItem('token', response.data);
+                    $window.localStorage.removeItem('token');
                     // sharedProperties.logUser($scope.username);
                     $rootScope.logUser($scope.username);
 

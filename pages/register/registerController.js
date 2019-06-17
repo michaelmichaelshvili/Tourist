@@ -86,6 +86,7 @@ angular.module("myApp")
             }, function erro(response){
                 console.log("error");
             }); 
+            $location.path("/");
         }
 
         $scope.possibleQuestion = questions;
