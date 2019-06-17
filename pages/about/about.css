@@ -1,8 +1,17 @@
 .my-flex1 {
     margin-top: 10px; 
     padding: 10px;
+    justify-content: space-between;
+    justify-items: center;
     
 }
-#about  {
+
+.p_about{
+    font-size: 24px;
     font-family: "Times New Roman", Times, serif;
+    text-align: left;
+    padding: 10px;
+}
+.h3_about{
+    font: bold;
 }

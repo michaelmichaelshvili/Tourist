@@ -9,8 +9,8 @@ angular.module("myApp")
                         url: "http://localhost:3000/getPOIDetail",
                         params: { name: $routeParams.poi_name }
                 }).then(function success(response) {
-                        $scope.data = response.data;
-                        // console.log($scope.data);
+                        $scope.poi = response.data;
+                        // console.log($scope.poi);
                 }, function erro(response) {
                         console.log("error");
                 });

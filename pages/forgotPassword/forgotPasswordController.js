@@ -12,7 +12,7 @@ angular.module("myApp")
                 url: "http://localhost:3000/restore_password",
                 data: { username: $scope.username, question: $scope.question, answer: $scope.answer }
             }).then(function success(response) {
-                if (response.data == "user does not exists" || response.data == "wrong answer") {
+                if (response.data == "User does not exists" || response.data == "Wrong answer") {
                     $scope._error = response.data;
                 }
                 // else if(response.data is error)

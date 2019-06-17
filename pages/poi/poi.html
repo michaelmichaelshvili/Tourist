@@ -1,22 +1,28 @@
 <!-- <link rel="stylesheet" type="text/css" href="poi_style.css"> -->
-<div ng-controller="poiController">
-    <h1>{{data.name}}</h1>
-    <!-- <div style="width: 35;height:35;position:absolute;" ng-style="(LocalFavorites.includes(poi.name))?{background:'red'}:{background:'blue'}" ng-click="favorite_select(poi.name)" class="circle bookmark"></div> -->
-    <h4>viewed by {{data.watchers_count}} people</h4>
-    <div class="container" id="div1">
-        <img height="100%" width="100%" ng-src="{{data.picture}}">
+<div ng-controller="poiController" style="margin:0;">
+    <h1>{{poi.name}}</h1>
+    
+    <h4>viewed by {{poi.watchers_count}} people</h4>
+    <h4>Rate: {{poi.rate*20}}%</h4>
+    <div style="margin:0; padding:0; width:100%" class="container1" id="div3">
+        <div >
+                <div style="width: 35;height:35;position:absolute;" ng-show="getStatus()"
+                ng-style="(LocalFavoritesIncludes(poi.name))?{background:'blue'}:{background:'white'}"
+                ng-click="favorite_select(poi)" class="circle bookmark"></div>
+            <img style="width: 500px; height: 300px" ng-src="{{poi.picture}}">
+        </div>
         <!-- src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/David%27s_Tower_1.jpg/1024px-David%27s_Tower_1.jpg"> -->
 
-        <div id="description">
-            <h3 class="no-margin-top">Description</h3>
+        <div id="description" style="height: 300px">
+            <h3 class="no-margin-top" style="text-align: center">Description</h3>
             <p>
-                {{data.description}}
+                {{poi.description}}
             </p>
 
         </div>
     </div>
     <br>
-    <div class="container" id="new-style">
+    <div class="container1" id="new-style">
         <div class="my-flex">
             <h3>Reviews</h3>
 
@@ -27,33 +33,32 @@
         <div class="my-flex">
             <button ng-click="openModal()">Rate this Point of Interest</button>
             <dialog id="About" class="dialog" style="height: 60%; width:60%">
-                    <!-- <button onclick="closeDialog()">Close dialog</button> -->
-                    <span class="close" class="dialog">&times; </span>
-                    <p class="dialog">
-                        <form id="rating" class="rating">
-                            <input type="radio" name="stars" id="4_stars" value="5">
-                            <label class="stars" for="4_stars">4 stars</label>
-                            <input type="radio" name="stars" id="3_stars" value="4">
-                            <label class="stars" for="3_stars">3 stars</label>
-                            <input type="radio" name="stars" id="2_stars" value="3">
-                            <label class="stars" for="2_stars">2 stars</label>
-                            <input type="radio" name="stars" id="1_stars" value="2">
-                            <label class="stars" for="1_stars">1 star</label>
-                            <input type="radio" name="stars" id="0_stars" value="1" required>
-                            <label class="stars" for="0_stars">0 star</label>
-                            <span class="label" id="stars"> Rating: </span>
-                            <br><br><br><br><br><br><br><br>
-                            <textarea rows="4" cols="50" id="textarea">
-                                </textarea>
-                            <button ng-click="sendRate()">Submit</button>
-                            <button ng-click="closeModal()">Close</button>
-                        </form>
-                    </p>
-                </dialog>
-            <label>Your rating: {{rateStar}}</label>
+                <!-- <button onclick="closeDialog()">Close dialog</button> -->
+                <span class="close" class="dialog">&times; </span>
+                <p class="dialog">
+                    <form id="rating" class="rating">
+                        <input type="radio" name="stars" id="4_stars" value="5">
+                        <label class="stars" for="4_stars">4 stars</label>
+                        <input type="radio" name="stars" id="3_stars" value="4">
+                        <label class="stars" for="3_stars">3 stars</label>
+                        <input type="radio" name="stars" id="2_stars" value="3">
+                        <label class="stars" for="2_stars">2 stars</label>
+                        <input type="radio" name="stars" id="1_stars" value="2">
+                        <label class="stars" for="1_stars">1 star</label>
+                        <input type="radio" name="stars" id="0_stars" value="1" required>
+                        <label class="stars" for="0_stars">0 star</label>
+                        <span class="label" id="stars"> Rating: </span>
+                        <br><br><br><br><br><br><br><br>
+                        <textarea rows="4" cols="50" id="textarea">
+                            </textarea>
+                        <button ng-click="sendRate()">Submit</button>
+                        <button ng-click="closeModal()">Close</button>
+                    </form>
+                </p>
+            </dialog><br>
+            <label>Your rating: {{rateStar}}</label><br>
             <label>Your comment: {{comment}}</label>
         </div>
     </div>
     <br><br><br><br><br><br>
 </div>
-

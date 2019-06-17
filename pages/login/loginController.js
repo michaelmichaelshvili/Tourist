@@ -25,12 +25,14 @@ angular.module("myApp")
                 // else if(response.data is error)
                 else {
                     // console.log(response.data);
-                    $window.localStorage.removeItem('token');
+                    $window.localStorage.setItem('token',response.data);
                     // sharedProperties.logUser($scope.username);
                     $rootScope.logUser($scope.username);
 
                     $http.get("http://localhost:3000/private/getFavoritePOI",{headers:{"x-auth-token":response.data}})
-                    .then(function(response){$rootScope.LocalFavorites=response.data;});
+                    .then(function(response){
+                        $rootScope.LocalFavorites=response.data.sort((a,b)=>a.rank-b.rank);
+                    });
                     
                     // .then(function(response){$rootScope.LocalFavorites=response.data.map(x=>x.name);});
                     //broadcast login

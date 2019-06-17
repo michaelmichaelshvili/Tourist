@@ -1,24 +1,41 @@
 <div ng-controller="homeController">
 
-    <div ng-show="getStatus()" id="popularPois">
-        <h2>Popular points</h2><br>
+    <div style="
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        justify-items: center;
+        ">
+
+<div ng-show="getStatus()" id="popularPois" style="text-align: center">
+        <h2>Popular points</h2>
         <div ng-repeat="poi in popularPois track by $index">
-            {{poi[0].name}}
-            <br>
-            <a style="width: auto;height:300;" ng-href="#!poi/{{poi[0].name}}">
-                <img ng-src="{{poi[0].picture}}" style="width: auto;height:300;">
+                <h5 style="max-width: 300px;"><b>{{poi[0].name}}</b></h5>
+            <a ng-href="#!poi/{{poi[0].name}}">
+                <img ng-src="{{poi[0].picture}}" style="width: 300px; height:200px">
             </a>
         </div>
     </div>
 
+    <div ng-show="getStatus()" id="lastSave" style="text-align: center">
+        <h2>Last Save points</h2>
+        <div ng-repeat="poi in lastPois track by $index">
+                <h5 style="max-width: 300px;"><b>{{poi[0].name}}</b></h5>
+            <a ng-href="#!poi/{{poi[0].name}}">
+                <img ng-src="{{poi[0].picture}}" style="width: 300px; height:200px">
+            </a>
+        </div>
+    </div>
 
-    <div ng-hide="getStatus()" id="explore" ng- class="container"
-        style=" display: flex; flex-direction: row; width: 100%; background-color: white; justify-items: center; justify-content: space-between;">
+    </div>
+    
+
+    <div ng-hide="getStatus()" id="explore" ng-class="container"
+        style="display: flex; flex-direction: row; width: 100%; background-color: white; justify-items: center; justify-content: space-around;">
         <div ng-repeat="poi in explorePois track by $index">
-            {{poi.name}}
-            <br>
-            <a style="width: auto;height:100;" ng-href="#!poi/{{poi.name}}">
-                <img ng-src="{{poi.picture}}" style="width: auto;height:100;">
+            <h5 style="max-width: 300px; text-align: center"><b>{{poi.name}}</b></h5>
+            <a ng-href="#!poi/{{poi.name}}">
+                <img ng-src="{{poi.picture}}" style="width: 300px; height:200px">
             </a>
         </div>
     </div>

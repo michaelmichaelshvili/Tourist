@@ -8,6 +8,7 @@ app
         };
         $scope.save_favorites_in_server = function(){
             $http({
+                // headers: { "x-auth-token": $window.localStorage.getItem('token')}, 
                 method: "POST",
                 url: "http://localhost:3000/private/saveAsFavorites",
                 data: { pois:  $rootScope.LocalFavorites.map(x=>x.name)},
