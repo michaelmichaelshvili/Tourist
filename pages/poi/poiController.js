@@ -10,7 +10,7 @@ angular.module("myApp")
                         params: { name: $routeParams.poi_name }
                 }).then(function success(response) {
                         $scope.poi = response.data;
-                        // console.log($scope.poi);
+                        console.log($scope.poi);
                 }, function erro(response) {
                         console.log("error");
                 });
