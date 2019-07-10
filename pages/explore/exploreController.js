@@ -1,6 +1,6 @@
 
 
-angular.module("myApp")
+angular.module("Jerusalem Advisor")
     .controller('exploreController', function ($scope, $routeParams, $http, $rootScope) {
 
         

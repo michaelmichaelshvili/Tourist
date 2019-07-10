@@ -1,5 +1,5 @@
 // console.log("im here app2");
-let app = angular.module('myApp', ["ngRoute","dndLists"]);
+let app = angular.module('Jerusalem Advisor', ["ngRoute","dndLists"]);
 app
     .run(function ($window, $rootScope, sharedProperties, $location,$http) {
         $rootScope.LocalFavorites = [];//maybe make more private

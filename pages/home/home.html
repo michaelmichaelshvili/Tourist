@@ -7,29 +7,30 @@
         justify-items: center;
         ">
 
-<div ng-show="getStatus()" id="popularPois" style="text-align: center">
-        <h2>Popular points</h2>
-        <div ng-repeat="poi in popularPois track by $index">
+        <div ng-show="getStatus()" id="popularPois" style="text-align: center">
+            <h2>Popular points</h2>
+            <div ng-repeat="poi in popularPois track by $index">
                 <h5 style="max-width: 300px;"><b>{{poi[0].name}}</b></h5>
-            <a ng-href="#!poi/{{poi[0].name}}">
-                <img ng-src="{{poi[0].picture}}" style="width: 300px; height:200px">
-            </a>
+                <a ng-href="#!poi/{{poi[0].name}}">
+                    <img ng-src="{{poi[0].picture}}" style="width: 300px; height:200px">
+                </a>
+            </div>
         </div>
+
+        <div ng-show="getStatus()" id="lastSave" style="text-align: center">
+            <h2>Last Save points</h2>
+            <div ng-repeat="poi in lastPois track by $index">
+                <h5 style="max-width: 300px;"><b>{{poi[0].name}}</b></h5>
+                <a ng-href="#!poi/{{poi[0].name}}">
+                    <img ng-src="{{poi[0].picture}}" style="width: 300px; height:200px">
+                </a>
+            </div>
+        </div>
+
     </div>
 
-    <div ng-show="getStatus()" id="lastSave" style="text-align: center">
-        <h2>Last Save points</h2>
-        <div ng-repeat="poi in lastPois track by $index">
-                <h5 style="max-width: 300px;"><b>{{poi[0].name}}</b></h5>
-            <a ng-href="#!poi/{{poi[0].name}}">
-                <img ng-src="{{poi[0].picture}}" style="width: 300px; height:200px">
-            </a>
-        </div>
-    </div>
-
-    </div>
-    
-    <p ng-hide="getStatus()" style="font: bold; font-size: 28px;" align="center">3 points you might be interested in</p><br>
+    <p ng-hide="getStatus()" style="font: bold; font-size: 28px;" align="center">3 points you might be interested in</p>
+    <br>
 
     <div ng-hide="getStatus()" id="explore" ng-class="container"
         style="display: flex; flex-direction: row; width: 100%; background-color: white; justify-items: center; justify-content: space-around;">

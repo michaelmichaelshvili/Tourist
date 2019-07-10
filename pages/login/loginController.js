@@ -1,7 +1,6 @@
-angular.module("myApp")
+angular.module("Jerusalem Advisor")
     .controller('loginController', function ($window, $scope, $http, $location,sharedProperties,$rootScope) {
-        $scope.username = 'dsadas';
-        $scope.password = 'asdasd';
+        
 
         $scope.forgot_password = function(){
             // console.log("check check 1 2");
@@ -19,9 +18,9 @@ angular.module("myApp")
                 url: "http://localhost:3000/login",
                 data: { username: $scope.username, password: $scope.password }
             }).then(function success(response) {
-                if (response.data == "user or password does not exists") {
-
-                }
+                if (response.data == "User or password does not exists") {
+                    alert(response.data);
+                }   
                 // else if(response.data is error)
                 else {
                     // console.log(response.data);

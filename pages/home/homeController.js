@@ -1,4 +1,4 @@
-angular.module("myApp")
+angular.module("Jerusalem Advisor")
     .controller('homeController', function ($rootScope,$window,$scope, $routeParams, $http, $location, sharedProperties) {
         // console.log("home");
         $http({

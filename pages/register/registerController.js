@@ -6,13 +6,13 @@ xml2json.fromFile("countries.xml", function (json) {
     jsonContries = json;
 });
 var questions = [
-    { qid: 1, name: "who are you?" },
+    { qid: 1, name: "who is your first teacher?" },
     { qid: 2, name: "what's your nickname?" },
     { qid: 3, name: "What's your dream job?" }
 ];
-var questionNum = 1;
+var questionNum = 2;
 
-angular.module("myApp")
+angular.module("Jerusalem Advisor")
     .controller("registerController", function ($scope, $http, $timeout, $location, $compile) {
         $scope.answers = undefined;
         $scope.q_answers = [];
@@ -73,7 +73,7 @@ angular.module("myApp")
                                 country:$scope._selectedCountry,
                                 email:$scope.email,
                                 categories: sopt,
-                                QAs:qas
+                                QA:qas
                             };
             // console.log(register_json);
 
@@ -82,7 +82,6 @@ angular.module("myApp")
                 url: 'http://localhost:3000/Register',
                 data: register_json
             }).then(function success(response){
-                console.log(response.data);
             }, function erro(response){
                 console.log("error");
             }); 
@@ -92,6 +91,10 @@ angular.module("myApp")
         $scope.possibleQuestion = questions;
 
         $scope.addField = function ($event) {
+            if(questionNum>=3)
+            {
+                return;
+            }
             var Element = document.getElementById(`question${questionNum++}`);
             // var newElement = angular.element(`<div id="question${questionNum}"></div>`);
             var newElement = angular.element(`<div id="question${questionNum}" class="questions"><select ng-required="required">
@@ -103,6 +106,10 @@ angular.module("myApp")
             Element.parentNode.insertBefore(newElement[0], Element.nextSibling);
             // Element.append(newElement);
             $event.preventDefault();
+            if(questionNum>=3)
+            {
+                document.getElementById("addButton").disabled = true;
+            }
         }
         // $http({
         //     method: "GET",

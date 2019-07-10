@@ -39,7 +39,7 @@ app.post("/Register", [
     check('lastname').isAlpha().withMessage("last name must be only letters"),
     check('city').isLength({ min: 1, max: 50 }).withMessage("city name must be 1-50 length"),
     check('email').isEmail().withMessage("invalid mail"),
-    check('QAs').custom(array => {
+    check('QA').custom(array => {
         for (var i = 0; i < array.length; i++) {
             for (var j = 0; j < array[i].length; j++) {
                 if (array[i][j].length < 1 || array[i][j].length > 50) {

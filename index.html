@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>myApp</title>
+    <title>Jerusalem Advisor</title>
     <link rel="stylesheet" type="text/css" href="pages/register/form_style.css">
     <link rel="stylesheet" type="text/css" href="pages/about/about.css">
     <link rel='stylesheet' href='multiselect-master/css/css.css'>
@@ -78,28 +78,28 @@
 
         .vertical {
             text-align: right;
-            width:100%;
+            width: 100%;
         }
     </style>
 
 </head>
 
-<body ng-app="myApp" ng-controller="mainController" style="margin:15px">
+<body ng-app="Jerusalem Advisor" ng-controller="mainController" style="margin:15px">
 
-        <div class="horizontal">
-            <a ng-href="#!"><img style="height: 100px" src="Capture.PNG"></a>
-            
-            <div class="vertical">
-                <h4>Hello, {{getStatus()?getUsername():"guest"}}</h4>
-        
-                <div ng-show="!getStatus()">
-                        Please <a ng-href="#!login">login</a> or <a ng-href="#!register">register</a>
-                </div>
-                <div ng-show="getStatus()">
-                        <a ng-click="logout()">logout</a>
-                </div>
+    <div class="horizontal">
+        <a ng-href="#!"><img style="height: 100px" src="Capture.PNG"></a>
+
+        <div class="vertical">
+            <h4>Hello, {{getStatus()?getUsername():"guest"}}</h4>
+
+            <div ng-show="!getStatus()">
+                Please <a ng-href="#!login">login</a> or <a ng-href="#!register">register</a>
+            </div>
+            <div ng-show="getStatus()">
+                <a ng-click="logout()">logout</a>
             </div>
         </div>
+    </div>
 
     <ul class="nav-bar-ul">
         <li><a ng-href="#!explore">Explore</a></li>

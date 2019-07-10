@@ -1,16 +1,16 @@
 var map;
 var geocoder;
 
-angular.module("myApp")
+angular.module("Jerusalem Advisor")
         .controller('poiController', function ($scope, $routeParams, $http, $rootScope, $window) {
-                console.log($routeParams.poi_name);
+                // console.log($routeParams.poi_name);
                 $http({
                         method: "GET",
                         url: "http://localhost:3000/getPOIDetail",
                         params: { name: $routeParams.poi_name }
                 }).then(function success(response) {
                         $scope.poi = response.data;
-                        console.log($scope.poi);
+                        // console.log($scope.poi);
                 }, function erro(response) {
                         console.log("error");
                 });
