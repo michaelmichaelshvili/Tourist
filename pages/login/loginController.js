@@ -1,15 +1,14 @@
 angular.module("myApp")
-    .controller('loginController', function ($window, $scope, $http, $location,sharedProperties,$rootScope) {
+    .controller('loginController', function ($window, $scope, $http, $location, sharedProperties, $rootScope) {
         $scope.username = 'dsadas';
         $scope.password = 'asdasd';
 
-        $scope.forgot_password = function(){
+        $scope.forgot_password = function () {
             // console.log("check check 1 2");
-            if($scope.username)
+            if ($scope.username)
                 $location.url(`/forgotPassword/${$scope.username}`);
             else
                 $location.url(`/forgotPassword`);
-
         }
 
 
@@ -25,15 +24,15 @@ angular.module("myApp")
                 // else if(response.data is error)
                 else {
                     // console.log(response.data);
-                    $window.localStorage.setItem('token',response.data);
+                    $window.localStorage.setItem('token', response.data);
                     // sharedProperties.logUser($scope.username);
                     $rootScope.logUser($scope.username);
 
-                    $http.get("http://localhost:3000/private/getFavoritePOI",{headers:{"x-auth-token":response.data}})
-                    .then(function(response){
-                        $rootScope.LocalFavorites=response.data.sort((a,b)=>a.rank-b.rank);
-                    });
-                    
+                    $http.get("http://localhost:3000/private/getFavoritePOI", { headers: { "x-auth-token": response.data } })
+                        .then(function (response) {
+                            $rootScope.LocalFavorites = response.data.sort((a, b) => a.rank - b.rank);
+                        });
+
                     // .then(function(response){$rootScope.LocalFavorites=response.data.map(x=>x.name);});
                     //broadcast login
                     // var token = response.data;
