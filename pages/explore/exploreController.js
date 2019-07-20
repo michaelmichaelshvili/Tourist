@@ -1,16 +1,21 @@
 
 
-angular.module("myApp")
+angular.module("Jerusalem Advisor")
     .controller('exploreController', function ($scope, $routeParams, $http, $rootScope) {
 
-        
+        $rootScope.load.then(()=>{
         if ($rootScope._allPOIs && $rootScope._categories){
             $scope.select_categories = {}
             for(_category of $rootScope._categories)
                 $scope.select_categories[_category]=true;
             show($rootScope._allPOIs);
-        }
-
+        }});
+        // if ($rootScope._allPOIs && $rootScope._categories){
+        //     $scope.select_categories = {}
+        //     for(_category of $rootScope._categories)
+        //         $scope.select_categories[_category]=true;
+        //     show($rootScope._allPOIs);
+        // }
         $scope.apply_categories = function () {
             var ses = [];
             for (k in $scope.select_categories) { if ($scope.select_categories[k]) { ses.push(k) } }
@@ -47,5 +52,6 @@ angular.module("myApp")
             if (Object.keys(POIs).length == 0) {
                 $scope._error = "No POI with that entry founded";
             }
+            $scope.$digest();
         }
     })

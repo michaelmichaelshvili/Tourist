@@ -25,10 +25,17 @@
     <div class="container1" id="new-style">
         <div class="my-flex">
             <h3>Reviews</h3>
+            <div ng-repeat="review in poi.reviews">
+                <b>rank:</b> {{review.rate}}<br>
+                <b>date:</b> {{review.date.substring(0,review.date.indexOf("T"))}}<br>
+                <b>review content:</b> {{review.review_content}}
+                <br><br><br>
+            </div>
 
         </div>
         <div id="map" class="my-flex">
             <h3>Map</h3>
+            
         </div>
         <div class="my-flex">
             <button ng-click="openModal()">Rate this Point of Interest</button>

@@ -1,5 +1,5 @@
 // console.log("im here app2");
-let app = angular.module('myApp', ["ngRoute","dndLists"]);
+let app = angular.module('Jerusalem Advisor', ["ngRoute","dndLists"]);
 app
     .run(function ($window, $rootScope, sharedProperties, $location,$http) {
         $rootScope.LocalFavorites = [];//maybe make more private
@@ -61,23 +61,26 @@ app
             method: "GET",
             url: "http://localhost:3000/getAllCategories"
         });
-        $rootScope.p1.then(function success(response) {
-            $rootScope._categories = response.data;
-        }, function erro(response) {
-            console.log("error getAllCategories");
-        });
+        // $rootScope.p1.then(function success(response) {
+        //     $rootScope._categories = response.data;
+        // }, function erro(response) {
+        //     console.log("error getAllCategories");
+        // });
         $rootScope.p2 = $http({
             method: "GET",
             url: "http://localhost:3000/getAllPOI"
         });
-        $rootScope.p2.then(function success(response) {
-            $rootScope._allPOIs = response.data;
-        }, function erro(response) {
-            console.log("error getAllPOI");
-        });
-        // Promise.all([$rootScope.p1,$rootScope.p2]).then(function(values){
-        //     alert("bom");
+        // $rootScope.p2.then(function success(response) {
+        //     $rootScope._allPOIs = response.data;
+        // }, function erro(response) {
+        //     console.log("error getAllPOI");
         // });
+        $rootScope.load = Promise.all([$rootScope.p1,$rootScope.p2]).then(function(responses){
+            $rootScope._categories = responses[0].data;
+            $rootScope._allPOIs = responses[1].data;
+            $rootScope.$digest();
+            // $scope.$digest();
+        });
     })
     .config(function ($routeProvider) {
         $routeProvider
@@ -139,5 +142,12 @@ app
         //     $scope.num_of_favorite = $rootScope.LocalFavorites.length;
         //     $timeout(function(){$scope.num_of_favorite = undefined;},3000);
         // })
+        // $scope.getAPIKey = function(){
+        //     var key = prompt("Please entar api key");
+        //     if(key!=null)
+        //     {
+        //         console.log(key);
+        //     }
+        // }
     }
     );

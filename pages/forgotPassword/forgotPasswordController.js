@@ -1,4 +1,4 @@
-angular.module("myApp")
+angular.module("Jerusalem Advisor")
     .controller('forgotPasswordController', function ($scope, $routeParams, $http, $location, sharedProperties) {
         $scope.questions = [
             { qid: 1, name: "who are you?" },

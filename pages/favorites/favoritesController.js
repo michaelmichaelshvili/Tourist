@@ -1,11 +1,12 @@
 // var $s;
 app
     .controller('favoritesController', function ($window, $scope, $routeParams, $http, $rootScope) {
-        $scope.models = {
-            lists: {
-                "pois": $rootScope.LocalFavorites
-            }
-        };
+        // $scope.models = {
+        //     lists: {
+        //         "pois": $rootScope.LocalFavorites
+        //     }
+        // };
+        $scope.list = $rootScope.LocalFavorites;
         $scope.save_favorites_in_server = function(){
             $http({
                 // headers: { "x-auth-token": $window.localStorage.getItem('token')}, 
@@ -19,8 +20,16 @@ app
             });
         };
 
-        $scope.sort_categories_Az = function () {
-            $rootScope.LocalFavorites = $rootScope.LocalFavorites.sort();
+
+        $scope.sort_categories_by_Az = function () {
+            $rootScope.LocalFavorites = $rootScope.LocalFavorites.sort((a,b)=>{
+                return (a.category_name.localeCompare(b.category_name))!=0?(a.category_name.localeCompare(b.category_name)):(a.name.localeCompare(b.name));
+            });
+        }
+        $scope.sort_categories_by_rank = function () {
+            $rootScope.LocalFavorites = $rootScope.LocalFavorites.sort((a,b)=>{
+                return (b.rate - a.rate);
+            });
         }
 
 

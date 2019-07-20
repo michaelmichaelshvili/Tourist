@@ -1,19 +1,22 @@
 var map;
 var geocoder;
 
-angular.module("myApp")
+angular.module("Jerusalem Advisor")
         .controller('poiController', function ($scope, $routeParams, $http, $rootScope, $window) {
-                console.log($routeParams.poi_name);
+                // console.log($routeParams.poi_name);
                 $http({
                         method: "GET",
                         url: "http://localhost:3000/getPOIDetail",
                         params: { name: $routeParams.poi_name }
                 }).then(function success(response) {
                         $scope.poi = response.data;
+                        loadMap($scope.poi.name);
                         // console.log($scope.poi);
                 }, function erro(response) {
                         console.log("error");
                 });
+
+                
 
                 $scope.openModal = function () {
                         if (!$rootScope.getStatus()) {
@@ -54,34 +57,27 @@ angular.module("myApp")
                 }
         })
 
+function loadMap(poi_name) {
+        var pune = { lat: 31.778345, lng: 35.2250786 };
+        map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 18,
+                center: pune
+        });
 
-        // function loadMap() {
-        // var pune = { lat: 18.5204, lng: 73.8567 };
-        // map = new google.maps.Map(document.getElementById('map'), {
-        //         zoom: 20,
-        //         center: pune
-        // });
+        geocoder = new google.maps.Geocoder();
 
-        // var marker = new google.maps.Marker({
-        //     position: pune,
-        //     map: map
-        // });
+        geocoder.geocode({ 'address': poi_name,componentRestrictions: {
+                country: 'IL'
+              } }, function (results, status) {
+                if (status == 'OK') {
+                        map.setCenter(results[0].geometry.location);
+                        var marker = new google.maps.Marker({
+                                map: map,
+                                position: results[0].geometry.location
+                        });
 
-        // var cdata = JSON.parse(document.getElementById('data').innerHTML);
-        // geocoder = new google.maps.Geocoder();
-        // // codeAddress(cdata);
-
-        // geocoder.geocode({ 'address': "Biratenu" }, function (results, status) {
-        //         if (status == 'OK') {
-        //                 map.setCenter(results[0].geometry.location);
-        //                 console.log("here");
-        //                 //   var points = {};
-        //                 //   points.id = data.id;
-        //                 //   points.lat = map.getCenter().lat();
-        //                 //   points.lng = map.getCenter().lng();
-        //                 //   updateCollegeWithLatLng(points);
-        //         } else {
-        //                 alert('Geocode was not successful for the following reason: ' + status);
-        //         }
-        // });
-// }
+                } else {
+                        alert('Geocode was not successful for the following reason: ' + status);
+                }
+        });
+}

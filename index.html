@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>myApp</title>
+    <title>Jerusalem Advisor</title>
     <link rel="stylesheet" type="text/css" href="pages/register/form_style.css">
     <link rel="stylesheet" type="text/css" href="pages/about/about.css">
     <link rel='stylesheet' href='multiselect-master/css/css.css'>
@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="zzzzzzzzzzdc.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="XMLtoJSON.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.8/angular.js"></script>
     <script
@@ -29,6 +29,9 @@
     <script src="/pages/explore/exploreController.js"></script>
     <script src="/pages/favorites/favoritesController.js"></script>
     <script src="/pages/home/homeController.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOdWA4rOy9r97sg02x4gjerfbIjOePjuY"
+    async defer></script>
+
 
     <!-- <script ng-controller="maps" async defer ng-src="{{maps_key}}"></script>
     <script language="JavaScript">
@@ -78,28 +81,34 @@
 
         .vertical {
             text-align: right;
-            width:100%;
+            width: 100%;
         }
     </style>
 
 </head>
 
-<body ng-app="myApp" ng-controller="mainController" style="margin:15px">
+<body ng-app="Jerusalem Advisor" ng-controller="mainController" style="margin:15px">
 
-        <div class="horizontal">
-            <a ng-href="#!"><img style="height: 100px" src="Capture.PNG"></a>
-            
-            <div class="vertical">
-                <h4>Hello, {{getStatus()?getUsername():"guest"}}</h4>
-        
+    <div class="horizontal">
+        <a ng-href="#!"><img style="height: 100px" src="Capture.PNG"></a>
+
+        <div class="vertical">
+            <h4>Hello, {{getStatus()?getUsername():"guest"}}</h4>
+            <div>
                 <div ng-show="!getStatus()">
-                        Please <a ng-href="#!login">login</a> or <a ng-href="#!register">register</a>
+                    Please <a ng-href="#!login">login</a> or <a ng-href="#!register">register</a>
                 </div>
                 <div ng-show="getStatus()">
-                        <button ng-click="logout()">logout</button>
+                    <a ng-click="logout()">logout</a>
+                </div>
+            </div>
+            <div>
+                <div ng-show="">
+
                 </div>
             </div>
         </div>
+    </div>
 
     <ul class="nav-bar-ul">
         <li><a ng-href="#!explore">Explore</a></li>
@@ -113,6 +122,7 @@
         <a ng-href="#!explore">explore</a>
         <a ng-show="getStatus()" ng-href="#!favorites">favorites {{LocalFavorites.length}} </a>
         <a ng-href="#!about">about</a>
+        <a ng-click="getAPIKey()">insert API key</a>
 
     </div> -->
     <div ng-view style="width: 100%"></div>

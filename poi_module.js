@@ -2,7 +2,7 @@ var DButilsAzure = require('./DButils');
 
 async function getPOIDetail(info) {
     const poi = await DButilsAzure.execQuery("SELECT * FROM POI_Table WHERE name = '" + info.name + "'");
-    const reviews = await DButilsAzure.execQuery(`SELECT TOP 2 rate,review_content FROM Users_Reviews_Table WHERE poi_name='${info.name}' ORDER BY date DESC `)
+    const reviews = await DButilsAzure.execQuery(`SELECT TOP 2 rate,review_content,date FROM Users_Reviews_Table WHERE poi_name='${info.name}' ORDER BY date DESC `)
     await DButilsAzure.execQuery(`UPDATE POI_Table SET watchers_count='${poi[0].watchers_count+1}' WHERE name = '${info.name}'`);
     if (poi.length == 1){
         poi[0].reviews = reviews;
@@ -13,7 +13,7 @@ async function getPOIDetail(info) {
 
 
 async function getRandomPOI(info) {
-    var minimalRank = Math.min(info.minimalRank||5 ,0);
+    var minimalRank = Math.min(info.minimalRank||5 ,3.5);
     var number_of_elements = 3;
     const poi = await DButilsAzure.execQuery(`SELECT TOP ${number_of_elements} * FROM POI_Table WHERE rate >= ${minimalRank} ORDER BY newid()`);
     return poi;
